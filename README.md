@@ -36,7 +36,7 @@ Generic REST server for JDE
 >>}
 >>@endjson
 >>```
->
+>---
 >### Error
 >>```PlantUML
 >>@startjson
