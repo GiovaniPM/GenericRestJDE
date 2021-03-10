@@ -122,8 +122,6 @@ Generic REST server for JDEdwars.
 >| AND    	|       AND operator      	|
 >| OR     	|       OR operator       	|
 >| NOT    	|       NOT operator      	|
->| IN     	|     Inside in a set     	|
->| NOT IN 	|     Outside of a set    	|
 >
 >### Error
 >>```PlantUML
