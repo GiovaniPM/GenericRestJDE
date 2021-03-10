@@ -1,5 +1,5 @@
 # GenericRestJDE
-Generic REST server for JDE
+Generic REST server for JDEdwars.
 
 ## JSON structure
 
