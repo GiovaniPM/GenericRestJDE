@@ -114,14 +114,14 @@ Generic REST server for JDEdwars.
 >>}
 >>@endjson
 >>```
->
->| Option 	|       Description       	|
->|--------	|:-----------------------:	|
->| (      	|  Open a operation group 	|
->| )      	| Close a operation group 	|
->| AND    	|       AND operator      	|
->| OR     	|       OR operator       	|
->| NOT    	|       NOT operator      	|
+>>
+>>| Option 	|       Description       	|
+>>|--------	|:-----------------------:	|
+>>| (      	|  Open a operation group 	|
+>>| )      	| Close a operation group 	|
+>>| AND    	|       AND operator      	|
+>>| OR     	|       OR operator       	|
+>>| NOT    	|       NOT operator      	|
 >
 >### Error
 >>```PlantUML
