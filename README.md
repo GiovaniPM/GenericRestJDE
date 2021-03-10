@@ -4,38 +4,38 @@ Generic REST server for JDE
 ## JSON structure
 
 ### Request
-```PlantUML
-@startjson
-{
-  "object": "F4101",
-  "filter": [
-    {
-      "connection": null,
-      "colunm": "IMPRP1",
-      "operator": "=",
-      "value": "A01"
-    },
-    {
-      "connection": "AND",
-      "colunm": "IMPRP2",
-      "operator": "=",
-      "value": "B01"
-    }
-  ],
-  "order": [
-    {
-      "colunm": "IMITM",
-      "sort": "A"
-    }
-  ],
-  "return": [
-    "IMITM",
-    "IMDSC1",
-    "IMDSC2"
-  ]
-}
-@endjson
-```
+>```PlantUML
+>@startjson
+>{
+>  "object": "F4101",
+>  "filter": [
+>    {
+>      "connection": null,
+>      "colunm": "IMPRP1",
+>      "operator": "=",
+>      "value": "A01"
+>    },
+>    {
+>      "connection": "AND",
+>      "colunm": "IMPRP2",
+>      "operator": "=",
+>      "value": "B01"
+>    }
+>  ],
+>  "order": [
+>    {
+>      "colunm": "IMITM",
+>      "sort": "A"
+>    }
+>  ],
+>  "return": [
+>    "IMITM",
+>    "IMDSC1",
+>    "IMDSC2"
+>  ]
+>}
+>@endjson
+>```
 
 ### Error
 ```PlantUML
