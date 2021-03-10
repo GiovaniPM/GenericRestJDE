@@ -115,6 +115,16 @@ Generic REST server for JDEdwars.
 >>@endjson
 >>```
 >
+>| Option 	|       Description       	|
+>|--------	|:-----------------------:	|
+>| (      	|  Open a operation group 	|
+>| )      	| Close a operation group 	|
+>| AND    	|       AND operator      	|
+>| OR     	|       OR operator       	|
+>| NOT    	|       NOT operator      	|
+>| IN     	|     Inside in a set     	|
+>| NOT IN 	|     Outside of a set    	|
+>
 >### Error
 >>```PlantUML
 >>@startjson
