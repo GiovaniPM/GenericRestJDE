@@ -62,7 +62,7 @@ Generic REST server for JDEdwars.
 >>}
 >>@endjson
 >>```
->
+>>
 >>```PlantUML
 >>@startjson
 >>{
