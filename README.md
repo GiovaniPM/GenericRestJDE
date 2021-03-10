@@ -6,7 +6,7 @@ Generic REST server for JDEdwars.
 @startditaa
 +---------+     +---------+     +---------+     +---------+
 |         |     |         |     |         | Y   |         |
-| Request |---->|  Query  |---->| Sucess  |---->|  Data   |
+| Request |---->|  Query  |---->| Success |---->|  Data   |
 | {d}     |     |         |     | {c}     |     | {d}     |
 +---------+     +---------+     +---------+     +---------+
                    |   ^             | N
