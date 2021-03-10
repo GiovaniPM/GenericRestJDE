@@ -31,15 +31,21 @@ Generic REST server for JDEdwars.
 >>  "filter": [
 >>    {
 >>      "connection": null,
->>      "colunm": "IMPRP1",
->>      "operator": "=",
->>      "value": "A01"
+>>      "option":
+>>        {
+>>          "colunm": "IMPRP1",
+>>          "operator": "=",
+>>          "value": "A01"
+>>        }
 >>    },
 >>    {
 >>      "connection": "AND",
->>      "colunm": "IMPRP2",
->>      "operator": "=",
->>      "value": "B01"
+>>      "option":
+>>        {
+>>          "colunm": "IMPRP2",
+>>          "operator": "=",
+>>          "value": "B01"
+>>        }
 >>    }
 >>  ],
 >>  "order": [
@@ -48,7 +54,59 @@ Generic REST server for JDEdwars.
 >>      "sort": "A"
 >>    }
 >>  ],
->>  "return": [
+>>  "data": [
+>>    "IMITM",
+>>    "IMDSC1",
+>>    "IMDSC2"
+>>  ]
+>>}
+>>@endjson
+>>```
+>
+>>```PlantUML
+>>@startjson
+>>{
+>>  "object": "F4101",
+>>  "filter": [
+>>    {
+>>      "connection": "(",
+>>      "option":
+>>        {
+>>          "colunm": "IMPRP1",
+>>          "operator": "=",
+>>          "value": "A01"
+>>        }
+>>    },
+>>    {
+>>      "connection": "OR",
+>>      "option":
+>>        {
+>>          "colunm": "IMPRP1",
+>>          "operator": "=",
+>>          "value": "A02"
+>>        }
+>>    },
+>>    {
+>>      "connection": ")",
+>>      "option": null
+>>    },
+>>    {
+>>      "connection": "AND",
+>>      "option":
+>>        {
+>>          "colunm": "IMPRP2",
+>>          "operator": "=",
+>>          "value": "B01"
+>>        }
+>>    }
+>>  ],
+>>  "order": [
+>>    {
+>>      "colunm": "IMITM",
+>>      "sort": "A"
+>>    }
+>>  ],
+>>  "data": [
 >>    "IMITM",
 >>    "IMDSC1",
 >>    "IMDSC2"
@@ -75,7 +133,7 @@ Generic REST server for JDEdwars.
 >>@endjson
 >>```
 >
->### Return
+>### Data
 >>```PlantUML
 >>@startjson
 >>{
