@@ -9,9 +9,9 @@ Generic REST server for JDEdwars.
 | Request |---->|  Query  |---->| Success |---->|  Data   |
 | {d}     |     |         |     | {c}     |     | {d}     |
 +---------+     +---------+     +---------+     +---------+
-                   |   ^             | N
-                   |   |             |
-                   V   |             V
+                    | ^              | N
+                    | |              |
+                    V |              V
                 +---------+     +---------+
                 |   {s}   |     |         |
                 |   JDE   |-=-->| Errors  |
