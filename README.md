@@ -3,6 +3,7 @@ Generic REST server for JDE
 
 ## JSON structure
 
+>---
 >### Request
 >>```PlantUML
 >>@startjson
@@ -83,3 +84,4 @@ Generic REST server for JDE
 >>}
 >>@endjson
 >>```
+>---
