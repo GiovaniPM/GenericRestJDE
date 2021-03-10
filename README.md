@@ -44,7 +44,7 @@ Generic REST server for JDE
   "error": [
     {
       "number": 12,
-      "text": "No values return."
+      "text": "No values returned."
     },
     {
       "number": 99,
@@ -66,18 +66,18 @@ Generic REST server for JDE
   "data": [
     {
       "IMITM": 123,
-      "IMDSC1": "ITEM UM",
-      "IMDSC2": "Primeiro item"
+      "IMDSC1": "ITEM ONE",
+      "IMDSC2": "First Item"
     },
     {
       "IMITM": 234,
-      "IMDSC1": "ITEM DOIS",
-      "IMDSC2": "Segundo item"
+      "IMDSC1": "ITEM TWO",
+      "IMDSC2": "Second item"
     },
     {
       "IMITM": 345,
-      "IMDSC1": "ITEM TRÊS",
-      "IMDSC2": "Terceiro item"
+      "IMDSC1": "ITEM THREE",
+      "IMDSC2": "Third item"
     }
   ]
 }
