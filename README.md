@@ -56,6 +56,7 @@ Generic REST server for JDE
 ```
 
 ### Return
+```PlantUML
 @startjson
 {
   "statistic": {
