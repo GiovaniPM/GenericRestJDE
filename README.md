@@ -36,50 +36,50 @@ Generic REST server for JDE
 >>}
 >>@endjson
 >>```
-
-### Error
-```PlantUML
-@startjson
-{
-  "error": [
-    {
-      "number": 12,
-      "text": "No values returned."
-    },
-    {
-      "number": 99,
-      "text": "Revise your request."
-    }
-  ]
-}
-@endjson
-```
-
-### Return
-```PlantUML
-@startjson
-{
-  "statistic": {
-    "TimeStamp": "2012-04-23T18:25:43.511Z",
-    "TimeElapsed": 0.00112
-  },
-  "data": [
-    {
-      "IMITM": 123,
-      "IMDSC1": "ITEM ONE",
-      "IMDSC2": "First Item"
-    },
-    {
-      "IMITM": 234,
-      "IMDSC1": "ITEM TWO",
-      "IMDSC2": "Second item"
-    },
-    {
-      "IMITM": 345,
-      "IMDSC1": "ITEM THREE",
-      "IMDSC2": "Third item"
-    }
-  ]
-}
-@endjson
-```
+>
+>### Error
+>>```PlantUML
+>>@startjson
+>>{
+>>  "error": [
+>>    {
+>>      "number": 12,
+>>      "text": "No values returned."
+>>    },
+>>    {
+>>      "number": 99,
+>>      "text": "Revise your request."
+>>    }
+>>  ]
+>>}
+>>@endjson
+>>```
+>
+>### Return
+>>```PlantUML
+>>@startjson
+>>{
+>>  "statistic": {
+>>    "TimeStamp": "2012-04-23T18:25:43.511Z",
+>>    "TimeElapsed": 0.00112
+>>  },
+>>  "data": [
+>>    {
+>>      "IMITM": 123,
+>>      "IMDSC1": "ITEM ONE",
+>>      "IMDSC2": "First Item"
+>>    },
+>>    {
+>>      "IMITM": 234,
+>>      "IMDSC1": "ITEM TWO",
+>>      "IMDSC2": "Second item"
+>>    },
+>>    {
+>>      "IMITM": 345,
+>>      "IMDSC1": "ITEM THREE",
+>>      "IMDSC2": "Third item"
+>>    }
+>>  ]
+>>}
+>>@endjson
+>>```
