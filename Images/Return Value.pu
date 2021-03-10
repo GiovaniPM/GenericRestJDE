@@ -1,0 +1,15 @@
+@startyaml
+statistic:
+  TimeStamp: "2012-04-23T18:25:43.511Z"
+  TimeElapsed: 0.00112
+data:
+  - IMITM: 123
+    IMDSC1: "ITEM UM"
+    IMDSC2: "Primeiro item"
+  - IMITM: 234
+    IMDSC1: "ITEM DOIS"
+    IMDSC2: "Segundo item"
+  - IMITM: 345
+    IMDSC1: "ITEM TRÊS"
+    IMDSC2: "Terceiro item"
+@endyaml
