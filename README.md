@@ -1,7 +1,26 @@
 # GenericRestJDE
 Generic REST server for JDEdwars.
 
-## JSON structure
+## Architecture
+```PlantUML
+@startditaa
++---------+     +---------+     +---------+     +---------+
+|         |     |         |     |         | Y   |         |
+| Request |---->|  Query  |---->| Sucess  |---->|  Data   |
+| {d}     |     |         |     | {c}     |     | {d}     |
++---------+     +---------+     +---------+     +---------+
+                   |   ^             | N
+                   |   |             |
+                   V   |             V
+                +---------+     +---------+
+                |   {s}   |     |         |
+                |   JDE   |-=-->| Errors  |
+                |         |     | {d}     |
+                +---------+     +---------+
+@endditaa
+```
+
+## JSON Data Structure
 
 >
 >### Request
