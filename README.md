@@ -54,7 +54,7 @@ Generic REST server for JDE
 >>}
 >>@endjson
 >>```
->
+>---
 >### Return
 >>```PlantUML
 >>@startjson
