@@ -68,11 +68,11 @@ ditaa(scale=1.5)
 >>    }
 >>  ],
 >>  "data":
->>    {
->>      "TAB.IMITM": null,
->>      "TAB.IMDSC1": null,
->>      "TAB.IMDSC2": null
->>    }
+>>    [
+>>      {"TAB.IMITM": null},
+>>      {"TAB.IMDSC1": null},
+>>      {"TAB.IMDSC2": null}
+>>    ]
 >>}
 >>@endjson
 >>```
@@ -329,12 +329,14 @@ ditaa(scale=1.5)
 >>| IN     	|        _inbound_          	|
 >>| NOT IN 	|        _outbound_         	|
 >### Terms nomenclature
->>| Type                        	| Representation    	|
+>>| Type                         	| Meaning           	|
 >>|-------------------------------	|---------------------	|
->>| 9,999.999                   	| Numeric            	|
->>| "xxxxxxxxxxxxxxxxxxxxx"     	| String constant    	|
->>| "TAB.xxxxxxxxxx"            	| Table column       	|
->>| "YYYY-MM-DDTHH:mm:SS.CCCZ"  	| Date              	|
+>>| 9,999,999.999                  	| Numeric            	|
+>>| "xxxxxxxxxxxxxxxxxxxxx"      	| String constant    	|
+>>| "TAB.xxxxxxxxxx"             	| Table column       	|
+>>| "YYYY-MM-DD"                	| Date              	|
+>>| "HH:mm:SS"                  	| Time              	|
+>>| "YYYY-MM-DDTHH:mm:SS.CCCZ"   	| Datetime           	|
 >### Error
 >>```PlantUML
 >>@startjson
