@@ -56,9 +56,11 @@ Generic REST server for JDEdwars.
 >>    }
 >>  ],
 >>  "data": [
->>    "TAB.IMITM",
->>    "TAB.IMDSC1",
->>    "TAB.IMDSC2"
+>>    {
+>>      "TAB.IMITM": null,
+>>      "TAB.IMDSC1": null,
+>>      "TAB.IMDSC2": null
+>>    }
 >>  ]
 >>}
 >>@endjson
@@ -126,9 +128,11 @@ Generic REST server for JDEdwars.
 >>    }
 >>  ],
 >>  "data": [
->>    "TAB.IMITM",
->>    "TAB.IMDSC1",
->>    "TAB.IMDSC2"
+>>    {
+>>      "TAB.IMITM": null,
+>>      "TAB.IMDSC1": null,
+>>      "TAB.IMDSC2": null
+>>    }
 >>  ]
 >>}
 >>@endjson
@@ -147,6 +151,102 @@ Generic REST server for JDEdwars.
 >>    IMPRP2 = "B01"
 >>ORDER BY
 >>    IMITM ASC
+>>```
+>### Request POST (Update)
+>>```PlantUML
+>>@startjson
+>>{
+>>  "object": "F4101",
+>>  "filter": [
+>>    {
+>>      "operator": "(",
+>>      "term1": null,
+>>      "term2": null
+>>    },
+>>    {
+>>      "operator": "=",
+>>      "term1": "TAB.IMPRP1",
+>>      "term2": "A01"
+>>    },
+>>    {
+>>      "operator": "OR",
+>>      "term1": null,
+>>      "term2": null
+>>    },
+>>    {
+>>      "operator": "=",
+>>      "term1": "TAB.IMPRP1",
+>>      "term2": "A02"
+>>    },
+>>    {
+>>      "operator": ")",
+>>      "term1": null,
+>>      "term2": null
+>>    },
+>>    {
+>>      "operator": "AND",
+>>      "term1": null,
+>>      "term2": null
+>>    },
+>>    {
+>>      "operator": "=",
+>>      "term1": "TAB.IMPRP2",
+>>      "term2": "B01"
+>>    }
+>>  ],
+>>  "order": [
+>>    {
+>>      "colunm": "TAB.IMITM",
+>>      "sort": "A"
+>>    }
+>>  ],
+>>  "data": [
+>>    {
+>>      "TAB.IMDSC1": "TAB.IMDSC2",
+>>      "TAB.IMDSC2": "TAB.IMDSC1"
+>>    }
+>>  ]
+>>}
+>>@endjson
+>>```
+>>
+>>```SQLdotnetcli
+>>UPDATE
+>>    F4101
+>>SET
+>>    IMPRP1 = IMPRP2
+>>    IMPRP2 = IMPRP1
+>>WHERE
+>>    (IMPRP1 = "A01" OR
+>>    IMPRP1 = "A02) AND
+>>    IMPRP2 = "B01"
+>>ORDER BY
+>>    IMITM ASC
+>>```
+>### Request POST (Insert)
+>>```PlantUML
+>>@startjson
+>>{
+>>  "object": "F4101",
+>>  "filter": null,
+>>  "order": null,
+>>  "data": [
+>>    {
+>>      "TAB.IMITM": 123,
+>>      "TAB.IMDSC1": "ITEM ONE",
+>>      "TAB.IMDSC2": "First Item"
+>>    }
+>>  ]
+>>}
+>>@endjson
+>>```
+>>
+>>```SQLdotnetcli
+>>INSERT INTO
+>>    F4101
+>>    (IMITM,IMPRP1,IMPRP2)
+>>VALUES
+>>    (123,"ITEM ONE","First Item")
 >>```
 >>
 >> **Types of operator:**
