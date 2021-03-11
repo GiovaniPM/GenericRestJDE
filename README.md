@@ -51,14 +51,14 @@ Generic REST server for JDEdwars.
 >>  ],
 >>  "order": [
 >>    {
->>      "colunm": "IMITM",
+>>      "colunm": "TAB.IMITM",
 >>      "sort": "A"
 >>    }
 >>  ],
 >>  "data": [
->>    "IMITM",
->>    "IMDSC1",
->>    "IMDSC2"
+>>    "TAB.IMITM",
+>>    "TAB.IMDSC1",
+>>    "TAB.IMDSC2"
 >>  ]
 >>}
 >>@endjson
@@ -121,14 +121,14 @@ Generic REST server for JDEdwars.
 >>  ],
 >>  "order": [
 >>    {
->>      "colunm": "IMITM",
+>>      "colunm": "TAB.IMITM",
 >>      "sort": "A"
 >>    }
 >>  ],
 >>  "data": [
->>    "IMITM",
->>    "IMDSC1",
->>    "IMDSC2"
+>>    "TAB.IMITM",
+>>    "TAB.IMDSC1",
+>>    "TAB.IMDSC2"
 >>  ]
 >>}
 >>@endjson
