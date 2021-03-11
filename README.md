@@ -61,7 +61,15 @@ Generic REST server for JDEdwars.
 >>```
 >>
 >>```SQLdotnetcli
->> SELECT
+>>SELECT
+>>  IMITM,
+>>  IMDSC1,
+>>  IMDSC2
+>>FROM
+>>  F4101
+>>WHERE
+>>  IMPRP1 = "A01" AND
+>>  IMPRP2 = "B01"
 >>```
 >>
 >>```PlantUML
