@@ -69,9 +69,18 @@ ditaa(scale=1.5)
 >>  ],
 >>  "data":
 >>    [
->>      {"TAB.IMITM": null},
->>      {"TAB.IMDSC1": null},
->>      {"TAB.IMDSC2": null}
+>>      {
+>>        "column": "TAB.IMITM",
+>>        "value": null
+>>      },
+>>      {
+>>        "column": "TAB.IMDSC1",
+>>        "value": null
+>>      },
+>>      {
+>>        "column": "TAB.IMDSC2",
+>>        "value": null
+>>      }
 >>    ]
 >>}
 >>@endjson

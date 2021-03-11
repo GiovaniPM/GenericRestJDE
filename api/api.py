@@ -107,42 +107,16 @@ def api_oracle_f4101():
 @app.route('/api/v1/oracle/select', methods=['GET'])
 def api_oracle_select():
     json_data = flask.request.json
-    sql_string = "SELECT "
+    sql_string = "SELECT"
     object_name = json_data["object"]
-    output_data = json_data["data"]
-    return output_data
-    #outputLog(object_name)
-    #conn = createConnection()
-    #cur = conn.cursor()
-    #sql_string =   "SELECT\
-    #                    IMITM,\
-    #                    IMLITM,\
-    #                    IMDSC1,\
-    #                    IMDSC2\
-    #                FROM\
-    #                    F4101\
-    #                ORDER BY\
-    #                    IMITM"
-    #cur.prepare(sql_string)
-    #cur.execute(None, {})
-    #rv = cur.fetchall()    
-    #outputLog(sql_string)
-    #outputLog(datetime.datetime.now())
-    #if rv is None:
-    #    cur.close()
-    #    conn.close()
-    #    abort(204)
-    #else:
-    #    objects_list = []
-    #    for row in rv:
-    #        reg           = {}
-    #        reg['IMITM' ] = row[0]
-    #        reg['IMLITM'] = row[1]
-    #        reg['IMPRP1'] = removeExtendCharacters(row[2])
-    #        reg['IMPRP2'] = removeExtendCharacters(row[3])
-    #        objects_list.append(reg)
-    #    cur.close()
-    #    conn.close()
-    #return jsonify(objects_list)
+    filter_list = json_data["filter"]
+    order_list = json_data["order"]
+    output_list = json_data["data"]
+    for json_object in output_list:
+        object_value = json_object["column"]
+        sql_string = sql_string + " " + object_value + ","
+    sql_string = sql_string + " 1 "
+    outputLog(sql_string)
+    return object_name
 
 app.run()
