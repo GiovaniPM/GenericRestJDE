@@ -1,5 +1,5 @@
 # GenericRestJDE
-Generic REST server for JDEdwars.
+Agnostic REST server for database (ie JDEdwards).
 
 ## Architecture
 ```PlantUML
