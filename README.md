@@ -31,7 +31,7 @@ Generic REST server for JDEdwars.
 >>  "filter": [
 >>    {
 >>      "operator": "=",
->>      "term1": "IMPRP1",
+>>      "term1": "TAB.IMPRP1",
 >>      "term2": "A01"
 >>    },
 >>    {
@@ -41,7 +41,7 @@ Generic REST server for JDEdwars.
 >>    },
 >>    {
 >>      "operator": "=",
->>      "term1": "IMPRP2",
+>>      "term1": "TAB.IMPRP2",
 >>      "term2": "B01"
 >>    }
 >>  ],
