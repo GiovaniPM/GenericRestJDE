@@ -328,6 +328,13 @@ ditaa(scale=1.5)
 >>| <      	|          _less_           	|
 >>| IN     	|        _inbound_          	|
 >>| NOT IN 	|        _outbound_         	|
+>### Terms nomenclature
+>>| Type                        	| Representation    	|
+>>|-----                       		|---------------    	|
+>>| 9,999.999                   	| Numeric            	|
+>>| "xxxxxxxxxxxxxxxxxxxxx"     	| String constant    	|
+>>| "TAB.xxxxxxxxxx"            	| Table column       	|
+>>| "YYYY-MM-DDTHH:mm:SS.CCCZ"  	| Date              	|
 >### Error
 >>```PlantUML
 >>@startjson
