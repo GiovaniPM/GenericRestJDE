@@ -30,22 +30,19 @@ Generic REST server for JDEdwars.
 >>  "object": "F4101",
 >>  "filter": [
 >>    {
->>      "connection": null,
->>      "option":
->>        {
->>          "colunm": "IMPRP1",
->>          "operator": "=",
->>          "value": "A01"
->>        }
+>>      "operator": "=",
+>>      "term1": "IMPRP1",
+>>      "term2": "A01"
 >>    },
 >>    {
->>      "connection": "AND",
->>      "option":
->>        {
->>          "colunm": "IMPRP2",
->>          "operator": "=",
->>          "value": "B01"
->>        }
+>>      "operator": "AND",
+>>      "term1": null,
+>>      "term2": null
+>>    },
+>>    {
+>>      "operator": "=",
+>>      "term1": "IMPRP2",
+>>      "term2": "B01"
 >>    }
 >>  ],
 >>  "order": [
@@ -115,6 +112,7 @@ Generic REST server for JDEdwars.
 >>@endjson
 >>```
 >>
+>> **Types of connections:**
 >>| Option 	|       Description       	|
 >>|--------	|:-----------------------:	|
 >>| (      	|  Open a operation group 	|
