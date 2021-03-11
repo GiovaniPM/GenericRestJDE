@@ -60,6 +60,10 @@ Generic REST server for JDEdwars.
 >>@endjson
 >>```
 >>
+>>```SQLdotnetcli
+>> SELECT
+>>```
+>>
 >>```PlantUML
 >>@startjson
 >>{
