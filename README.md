@@ -330,7 +330,7 @@ ditaa(scale=1.5)
 >>| NOT IN 	|        _outbound_         	|
 >### Terms nomenclature
 >>| Type                        	| Representation    	|
->>|-----                       		|---------------    	|
+>>|-------------------------------	|---------------------	|
 >>| 9,999.999                   	| Numeric            	|
 >>| "xxxxxxxxxxxxxxxxxxxxx"     	| String constant    	|
 >>| "TAB.xxxxxxxxxx"            	| Table column       	|
