@@ -5,14 +5,15 @@ Generic REST server for JDEdwars.
 ```PlantUML
 @startditaa
 +---------+          +---------+          +---------+          +---------+
-|cBLU     |          |c1FF     |          |cYEL     |          |cGRE     |
+|c008     |          |c0FF     |          |cFF0     |          |c080     |
 |         |          |         |          |         |  Y       |         |
-| Request +--------->|  Query  +--------->| Success +--------->|  Data   |
+| Request +--------->|  Query  +--------->| Success +--------->|   Data  |
 |         |          |         |          |         |          |         |
 | {d}     |          |         |          | {c}     |          | {d}     |
 +---------+          +---+-----+          +----+----+          +---------+
                          | ^                   | 
-                         : :                   | N
+                         | |                   | N
+                         : :                   | 
                          V |                   V
                      +-----+---+          +---------+
                      |cAAA     |          |cRED     |
