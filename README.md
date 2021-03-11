@@ -23,7 +23,7 @@ Generic REST server for JDEdwars.
 ## JSON Data Structure
 
 >
->### Request
+>### Request GET
 >>```PlantUML
 >>@startjson
 >>{
@@ -128,6 +128,21 @@ Generic REST server for JDEdwars.
 >>  ]
 >>}
 >>@endjson
+>>```
+>>
+>>```SQLdotnetcli
+>>SELECT
+>>    IMITM,
+>>    IMDSC1,
+>>    IMDSC2
+>>FROM
+>>    F4101
+>>WHERE
+>>    (IMPRP1 = "A01" OR
+>>    IMPRP1 = "A02) AND
+>>    IMPRP2 = "B01"
+>>ORDER BY
+>>    IMITM ASC
 >>```
 >>
 >> **Types of connections:**
