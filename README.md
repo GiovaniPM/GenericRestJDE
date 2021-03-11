@@ -152,19 +152,19 @@ Generic REST server for JDEdwars.
 >> **Types of operator:**
 >>| Option 	|       Description       	|
 >>|--------	|:-----------------------:	|
->>| (      	|_  Open a operation group _	|
->>| )      	|_ Close a operation group _	|
->>| AND    	|_       AND operator      _	|
->>| OR     	|_       OR operator       _	|
->>| NOT    	|_       NOT operator      _	|
->>| =      	|_           equal         _	|
->>| !=     	|_         different       _	|
->>| <=     	|_     less or equal       _	|
->>| >=     	|_    great or equal       _	|
->>| >      	|_          great          _	|
->>| <      	|_          less           _	|
->>| IN     	|_        inbound          _	|
->>| NOT IN 	|_        outbound         _	|
+>>| (      	|  _Open a operation group_ 	|
+>>| )      	| _Close a operation group_ 	|
+>>| AND    	|       _AND operator_      	|
+>>| OR     	|       _OR operator_       	|
+>>| NOT    	|       _NOT operator_      	|
+>>| =      	|           _equal_         	|
+>>| !=     	|         _different_       	|
+>>| <=     	|     _less or equal_       	|
+>>| >=     	|    _great or equal_       	|
+>>| >      	|          _great_          	|
+>>| <      	|          _less_           	|
+>>| IN     	|        _inbound_          	|
+>>| NOT IN 	|        _outbound_         	|
 >_
 >### Error
 >>```PlantUML
