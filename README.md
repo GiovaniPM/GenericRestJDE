@@ -152,7 +152,7 @@ Generic REST server for JDEdwars.
 >> **Types of operator:**
 >>| Option 	|       Description       	|
 >>|--------	|:-----------------------:	|
->>| (      	|  Open a operation group 	|
+>>| (      	|  _Open a operation group_ 	|
 >>| )      	| Close a operation group 	|
 >>| AND    	|       AND operator      	|
 >>| OR     	|       OR operator       	|
