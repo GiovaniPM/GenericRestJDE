@@ -4,7 +4,7 @@ Agnostic REST server for database (ie JDEdwards).
 ## Architecture
 ```PlantUML
 @startuml
-ditaa(scale=2.0)
+ditaa(scale=1.5)
 
 +------+
 |      |
