@@ -62,14 +62,16 @@ Generic REST server for JDEdwars.
 >>
 >>```SQLdotnetcli
 >>SELECT
->>  IMITM,
->>  IMDSC1,
->>  IMDSC2
+>>    IMITM,
+>>    IMDSC1,
+>>    IMDSC2
 >>FROM
->>  F4101
+>>    F4101
 >>WHERE
->>  IMPRP1 = "A01" AND
->>  IMPRP2 = "B01"
+>>    IMPRP1 = "A01" AND
+>>    IMPRP2 = "B01"
+>>ORDER BY
+>>    IMITM ASC
 >>```
 >>
 >>```PlantUML
