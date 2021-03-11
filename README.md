@@ -55,13 +55,12 @@ Generic REST server for JDEdwars.
 >>      "sort": "A"
 >>    }
 >>  ],
->>  "data": [
+>>  "data":
 >>    {
 >>      "TAB.IMITM": null,
 >>      "TAB.IMDSC1": null,
 >>      "TAB.IMDSC2": null
 >>    }
->>  ]
 >>}
 >>@endjson
 >>```
@@ -127,13 +126,12 @@ Generic REST server for JDEdwars.
 >>      "sort": "A"
 >>    }
 >>  ],
->>  "data": [
+>>  "data":
 >>    {
 >>      "TAB.IMITM": null,
 >>      "TAB.IMDSC1": null,
 >>      "TAB.IMDSC2": null
 >>    }
->>  ]
 >>}
 >>@endjson
 >>```
@@ -200,12 +198,11 @@ Generic REST server for JDEdwars.
 >>      "sort": "A"
 >>    }
 >>  ],
->>  "data": [
+>>  "data":
 >>    {
 >>      "TAB.IMDSC1": "TAB.IMDSC2",
 >>      "TAB.IMDSC2": "TAB.IMDSC1"
 >>    }
->>  ]
 >>}
 >>@endjson
 >>```
@@ -230,13 +227,12 @@ Generic REST server for JDEdwars.
 >>  "object": "F4101",
 >>  "filter": null,
 >>  "order": null,
->>  "data": [
+>>  "data":
 >>    {
 >>      "TAB.IMITM": 123,
 >>      "TAB.IMDSC1": "ITEM ONE",
 >>      "TAB.IMDSC2": "First Item"
 >>    }
->>  ]
 >>}
 >>@endjson
 >>```
