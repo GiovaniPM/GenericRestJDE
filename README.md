@@ -66,35 +66,39 @@ Generic REST server for JDEdwars.
 >>  "object": "F4101",
 >>  "filter": [
 >>    {
->>      "connection": "(",
->>      "option":
->>        {
->>          "colunm": "IMPRP1",
->>          "operator": "=",
->>          "value": "A01"
->>        }
+>>      "operator": "(",
+>>      "term1": null,
+>>      "term2": null
 >>    },
 >>    {
->>      "connection": "OR",
->>      "option":
->>        {
->>          "colunm": "IMPRP1",
->>          "operator": "=",
->>          "value": "A02"
->>        }
+>>      "operator": "=",
+>>      "term1": "TAB.IMPRP1",
+>>      "term2": "A01"
 >>    },
 >>    {
->>      "connection": ")",
->>      "option": null
+>>      "operator": "OR",
+>>      "term1": null,
+>>      "term2": null
 >>    },
 >>    {
->>      "connection": "AND",
->>      "option":
->>        {
->>          "colunm": "IMPRP2",
->>          "operator": "=",
->>          "value": "B01"
->>        }
+>>      "operator": "=",
+>>      "term1": "TAB.IMPRP1",
+>>      "term2": "A02"
+>>    },
+>>    {
+>>      "operator": ")",
+>>      "term1": null,
+>>      "term2": null
+>>    },
+>>    {
+>>      "operator": "AND",
+>>      "term1": null,
+>>      "term2": null
+>>    },
+>>    {
+>>      "operator": "=",
+>>      "term1": "TAB.IMPRP2",
+>>      "term2": "B01"
 >>    }
 >>  ],
 >>  "order": [
