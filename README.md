@@ -248,8 +248,64 @@ Generic REST server for JDEdwars.
 >>VALUES
 >>    (123,"ITEM ONE","First Item")
 >>```
+>### Request DELETE
+>>```PlantUML
+>>@startjson
+>>{
+>>  "object": "F4101",
+>>  "filter": [
+>>    {
+>>      "operator": "(",
+>>      "term1": null,
+>>      "term2": null
+>>    },
+>>    {
+>>      "operator": "=",
+>>      "term1": "TAB.IMPRP1",
+>>      "term2": "A01"
+>>    },
+>>    {
+>>      "operator": "OR",
+>>      "term1": null,
+>>      "term2": null
+>>    },
+>>    {
+>>      "operator": "=",
+>>      "term1": "TAB.IMPRP1",
+>>      "term2": "A02"
+>>    },
+>>    {
+>>      "operator": ")",
+>>      "term1": null,
+>>      "term2": null
+>>    },
+>>    {
+>>      "operator": "AND",
+>>      "term1": null,
+>>      "term2": null
+>>    },
+>>    {
+>>      "operator": "=",
+>>      "term1": "TAB.IMPRP2",
+>>      "term2": "B01"
+>>    }
+>>  ],
+>>  "order": null,
+>>  "data": null
+>>}
+>>@endjson
+>>```
 >>
->> **Types of operator:**
+>>```SQLdotnetcli
+>>DELETE FROM
+>>    F4101
+>>WHERE
+>>    (IMPRP1 = "A01" OR
+>>    IMPRP1 = "A02) AND
+>>    IMPRP2 = "B01"
+>>```
+>
+>>## Types of operator
 >>| Option 	|       Description       	|
 >>|--------	|:-----------------------:	|
 >>| (      	|  _Open a operation group_ 	|
