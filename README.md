@@ -145,7 +145,7 @@ Generic REST server for JDEdwars.
 >>    IMITM ASC
 >>```
 >>
->> **Types of connections:**
+>> **Types of operator:**
 >>| Option 	|       Description       	|
 >>|--------	|:-----------------------:	|
 >>| (      	|  Open a operation group 	|
@@ -153,6 +153,14 @@ Generic REST server for JDEdwars.
 >>| AND    	|       AND operator      	|
 >>| OR     	|       OR operator       	|
 >>| NOT    	|       NOT operator      	|
+>>| =      	|                          	|
+>>| !=     	|                          	|
+>>| <=     	|                          	|
+>>| >=     	|                          	|
+>>| >      	|                          	|
+>>| <      	|                          	|
+>>| IN     	|                          	|
+>>| NOT IN 	|                          	|
 >
 >### Error
 >>```PlantUML
