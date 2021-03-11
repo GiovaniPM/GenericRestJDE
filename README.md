@@ -265,7 +265,6 @@ Generic REST server for JDEdwars.
 >>| <      	|          _less_           	|
 >>| IN     	|        _inbound_          	|
 >>| NOT IN 	|        _outbound_         	|
->_
 >### Error
 >>```PlantUML
 >>@startjson
