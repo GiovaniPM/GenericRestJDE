@@ -304,8 +304,7 @@ Generic REST server for JDEdwars.
 >>    IMPRP1 = "A02) AND
 >>    IMPRP2 = "B01"
 >>```
->
->>## Types of operator
+>## Types of operator
 >>| Option 	|       Description       	|
 >>|--------	|:-----------------------:	|
 >>| (      	|  _Open a operation group_ 	|
