@@ -153,14 +153,14 @@ Generic REST server for JDEdwars.
 >>| AND    	|       AND operator      	|
 >>| OR     	|       OR operator       	|
 >>| NOT    	|       NOT operator      	|
->>| =      	|                          	|
->>| !=     	|                          	|
->>| <=     	|                          	|
->>| >=     	|                          	|
->>| >      	|                          	|
->>| <      	|                          	|
->>| IN     	|                          	|
->>| NOT IN 	|                          	|
+>>| =      	|           equal          	|
+>>| !=     	|         different        	|
+>>| <=     	|     less or equal        	|
+>>| >=     	|    great or equal        	|
+>>| >      	|          great           	|
+>>| <      	|          less            	|
+>>| IN     	|        inbound           	|
+>>| NOT IN 	|        outbound          	|
 >
 >### Error
 >>```PlantUML
