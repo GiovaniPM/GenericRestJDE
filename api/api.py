@@ -179,7 +179,7 @@ def home():
     <h2>Available functions:</h2>
     <div style="font-family:Verdana;font-size:100%;"><br>- This directory <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></div>
     <div style="font-family:Verdana;font-size:100%;"><br>- GET information <a href="http://127.0.0.1:5000/api/v1/oracle/select">http://127.0.0.1:5000/api/v1/oracle/select</a></div>
-    <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;"><br>
+    <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
     <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/select</mark><br>
     Heards - <mark>{"Content-Type":"application/json"}</mark><br>
     Method - <mark>GET</mark><br>
