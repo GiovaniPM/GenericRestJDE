@@ -50,19 +50,28 @@ def binderCreate(txt):
     binders_list[key] = txt
     return ":" + binders_name
 
+def defineType(txt):
+    if txt != None:
+        if isinstance(txt, (int, float)):
+            return "int"
+        elif txt.find("TAB.") == 0:
+            return "tab"
+        else:
+            return "str"
+
 def removePrefix(term):
     if binders_activate == True:
-        if isinstance(term, (int, float)):
+        if defineType(term) == "int":
             term = binderCreate(str(term))
-        elif term.find("TAB.") == 0:
+        elif defineType(term) == "tab":
             term = term.replace("TAB.","")
         else:
-            term = binderCreate("'" + term + "'")
+            term = binderCreate(term.strip())
         return term
     else:
-        if isinstance(term, (int, float)):
+        if defineType(term) == "int":
             term = str(term)
-        elif term.find("TAB.") == 0:
+        elif defineType(term) == "tab":
             term = term.replace("TAB.","")
         else:
             term = "'" + term + "'"
@@ -70,18 +79,21 @@ def removePrefix(term):
 
 def makeWhere(operator, term1, term2):
     if binders_activate == True:
-        existstring = False
+        string1 = defineType(term1)
+        string2 = defineType(term2)
         if term1 != None:
-            if isinstance(term1, (str)):
-                existstring = True
             term1 = removePrefix(term1)
         if term2 != None:
-            if isinstance(term2, (str)):
-                existstring = True
             term2 = removePrefix(term2)
-        if existstring == True:
-            term1 = "TRIM(" + term1 + ")"
-            term2 = "TRIM(" + term2 + ")"
+        if string1 == "str" or string2 == "str":
+            if string1 == "str":
+                term1 = term1.strip()
+            else:
+                term1 = "TRIM(" + term1 + ")"
+            if string2 == "str":
+                term2 = term2.strip()
+            else:
+                term2 = "TRIM(" + term2 + ")"
     else:
         if term1 != None:
             term1 = removePrefix(term1)
@@ -187,7 +199,7 @@ def home():
     Method - <mark>GET</mark><br>
     Body - <mark>{ "object": "F4111", "filter": [ { "operator": ">", "term1": "TAB.ILCRDJ", "term2": 118000 }, { "operator": "AND", "term1": null, "term2": null }, { "operator": "<", "term1": "TAB.ILCRDJ", "term2": 119000 } ], "order": null, "data": [ { "column": "TAB.ILITM", "value": null }, { "column": "TAB.ILLITM", "value": null }, { "column": "TAB.ILMCU", "value": null }, { "column": "TAB.ILCRDJ", "value": null } ] }</mark><br><br>
     curl -X GET -i -H "Content-Type: application/json" -d "{\"object\": \"F4111\", \"filter\": [{\"operator\": \"=\", \"term1\": \"TAB.ILLITM\", \"term2\": \"ME00004N                 \"}], \"order\": null, \"data\": [{\"column\": \"TAB.ILITM\", \"value\": null}, {\"column\": \"TAB.ILLITM\", \"value\": null}, {\"column\": \"TAB.ILMCU\", \"value\": null}, {\"column\": \"TAB.ILCRDJ\", \"value\": null}]}" http://127.0.0.1:5000/api/v1/oracle/select</div></div>
-    <h3>- GET information <a href="http://127.0.0.1:5000/api/v2/oracle/select">http://127.0.0.1:5000/api/v2/oracle/select</a> (does not work yeat)</h3>
+    <h3>- GET information <a href="http://127.0.0.1:5000/api/v2/oracle/select">http://127.0.0.1:5000/api/v2/oracle/select</a></h3>
     <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
     <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v2/oracle/select</mark><br>
     Heards - <mark>{"Content-Type":"application/json"}</mark><br>
@@ -236,7 +248,8 @@ def api_oracle_select2():
     binders_next = 0
     conn = createConnection()
     cur = conn.cursor()
-    # BUG: flask.request.json não retorna com todos os espaços de um valor no JSON. Ex.: 'ME00004N                 ' vira 'ME00004N '
+    # FIX: flask.request.json não retorna com todos os espaços de um valor no JSON. Ex.: 'ME00004N                 ' vira 'ME00004N '
+    # Solved changed ILLITM = 'ME00004N                 ' for TRIM(ILLITM) = 'ME00004N'
     sql_string = makeSelect(flask.request.json)
     if app.config["DEBUG"] == True:
         outputLog(flask.request.json)
