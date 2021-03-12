@@ -10,7 +10,11 @@ import os
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
-# Create a connection with Oracle
+binders_activate = False
+binders_list = {}
+binders_next = 0
+binders_value = ""
+
 def createConnection():
     db_host = 'localhost'
     db_port = 1521
@@ -38,14 +42,31 @@ def outputLog(text):
 def removeExtendCharacters(txt):
     return normalize('NFKD', txt).encode('ASCII', 'ignore').decode('ASCII')
 
+def binderCreate(txt):
+    global binders_list, binders_next
+    binders_next = binders_next + 1
+    binders_name = "B" + str(binders_next)
+    key = binders_name
+    binders_list[key] = txt
+    return ":" + binders_name
+
 def removePrefix(term):
-    if isinstance(term, (int, float)):
-        term = str(term)
-    elif term.find("TAB.") == 0:
-        term = term.replace("TAB.","")
+    if binders_activate == True:
+        if isinstance(term, (int, float)):
+            term = binderCreate(str(term))
+        elif term.find("TAB.") == 0:
+            term = term.replace("TAB.","")
+        else:
+            term = binderCreate("'" + term + "'")
+        return term
     else:
-        term = "'" + term + "'"
-    return term
+        if isinstance(term, (int, float)):
+            term = str(term)
+        elif term.find("TAB.") == 0:
+            term = term.replace("TAB.","")
+        else:
+            term = "'" + term + "'"
+        return term
 
 def makeWhere(operator, term1, term2):
     if operator == "(":
@@ -136,11 +157,31 @@ def makeSelect(json_data):
 
 @app.route('/', methods=['GET'])
 def home():
-    return '''<h1>Web Service Directory</h1><br>https://github.com/GiovaniPM/GenericRestJDE'''
+    return '''
+    <h1>Web Service Directory</h1>
+    To see more information please visite the <a href="https://github.com/GiovaniPM/GenericRestJDE">project site.</a><br><br>
+    <h2>Available functions:</h2>
+    <div style="font-family:Verdana;font-size:120%;"><br>- This directory <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></div>
+    <div style="font-family:Verdana;font-size:120%;"><br>- GET information <a href="http://127.0.0.1:5000/api/v1/oracle/select">http://127.0.0.1:5000/api/v1/oracle/select</a></div>
+    Ex.:<br>
+    <div style="font-family:Verdana;background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/select</mark><br>
+    Heards - <mark>{"Content-Type":"application/json"}</mark><br>
+    Method - <mark>GET</mark><br>
+    Body - <mark>{ "object": "F4111", "filter": [ { "operator": ">", "term1": "TAB.ILCRDJ", "term2": 118000 }, { "operator": "AND", "term1": null, "term2": null }, { "operator": "<", "term1": "TAB.ILCRDJ", "term2": 119000 } ], "order": null, "data": [ { "column": "TAB.ILITM", "value": null }, { "column": "TAB.ILLITM", "value": null }, { "column": "TAB.ILMCU", "value": null }, { "column": "TAB.ILCRDJ", "value": null } ] }</mark></div>
+    <div style="font-family:Verdana;font-size:120%;"><br>- GET information <a href="http://127.0.0.1:5000/api/v2/oracle/select">http://127.0.0.1:5000/api/v1/oracle/select</a></div>
+    Ex.:<br>
+    <div style="font-family:Verdana;background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v2/oracle/select</mark><br>
+    Heards - <mark>{"Content-Type":"application/json"}</mark><br>
+    Method - <mark>GET</mark><br>
+    Body - <mark>{ "object": "F4111", "filter": [ { "operator": "=", "term1": "TAB.ILLITM", "term2": "ME00004N                 " } ], "order": null, "data": [ { "column": "TAB.ILITM", "value": null }, { "column": "TAB.ILLITM", "value": null }, { "column": "TAB.ILMCU", "value": null }, { "column": "TAB.ILCRDJ", "value": null } ] }</mark></div>
+    '''
 
-# A route to return all of the available entries in our catalog.
 @app.route('/api/v1/oracle/select', methods=['GET'])
 def api_oracle_select():
+    global binders_activate, binders_list, binders_next
+    binders_activate = False
+    binders_list = {}
+    binders_next = 0
     conn = createConnection()
     cur = conn.cursor()
     sql_string = makeSelect(flask.request.json)
@@ -149,6 +190,40 @@ def api_oracle_select():
         outputLog(sql_string)
     cur.prepare(sql_string)
     cur.execute(None, {})
+    rv = cur.fetchall()    
+    if rv is None:
+        cur.close()
+        conn.close()
+        abort(204)
+    else:
+        objects_list = []
+        headers = makeHeader(flask.request.json)
+        for row in rv:
+            reg = {}
+            for i in range(qtyHeader(flask.request.json)):
+                reg[headers[i]] = row[i]
+            objects_list.append(reg)
+        cur.close()
+        conn.close()
+    return jsonify(objects_list)
+
+@app.route('/api/v2/oracle/select', methods=['GET'])
+def api_oracle_select2():
+    #curl -X GET -i -H "Content-Type: application/json" -d "{\"object\": \"F4111\", \"filter\": [{\"operator\": \"=\", \"term1\": \"TAB.ILLITM\", \"term2\": \"ME00004N                 \"}], \"order\": null, \"data\": [{\"column\": \"TAB.ILITM\", \"value\": null}, {\"column\": \"TAB.ILLITM\", \"value\": null}, {\"column\": \"TAB.ILMCU\", \"value\": null}, {\"column\": \"TAB.ILCRDJ\", \"value\": null}]}" http://127.0.0.1:5000/api/v2/oracle/select
+    global binders_activate, binders_list, binders_next
+    binders_activate = True
+    binders_list = {}
+    binders_next = 0
+    conn = createConnection()
+    cur = conn.cursor()
+    # BUG: flask.request.json não retorna todos os espaços de um valor no JSON. Ex.: "ME00004N                 " vira "ME00004N "
+    sql_string = makeSelect(flask.request.json)
+    if app.config["DEBUG"] == True:
+        outputLog(flask.request.json)
+        outputLog(sql_string)
+        outputLog(binders_list)
+    cur.prepare(sql_string)
+    cur.execute(None, binders_list)
     rv = cur.fetchall()    
     if rv is None:
         cur.close()
