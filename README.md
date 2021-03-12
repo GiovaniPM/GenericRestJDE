@@ -306,11 +306,20 @@ ditaa(scale=1.5)
 >>  "filter": null,
 >>  "order": null,
 >>  "data":
->>    {
->>      "TAB.IMITM": 123,
->>      "TAB.IMDSC1": "ITEM ONE",
->>      "TAB.IMDSC2": "First Item"
->>    }
+>>    [
+>>      {
+>>        "column": "TAB.IMITM",
+>>        "value": 123
+>>      },
+>>      {
+>>        "column": "TAB.IMDSC1",
+>>        "value": "ITEM ONE"
+>>      },
+>>      {
+>>        "column": "TAB.IMDSC2",
+>>        "value": "First Item"
+>>      }
+>>    ]
 >>}
 >>@endjson
 >>```
