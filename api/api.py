@@ -10,25 +10,6 @@ import os
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
-# Create some test data for our catalog in the form of a list of dictionaries.
-books = [
-    {'id': 0,
-     'title': 'A Fire Upon the Deep',
-     'author': 'Vernor Vinge',
-     'first_sentence': 'The coldsleep itself was dreamless.',
-     'year_published': '1992'},
-    {'id': 1,
-     'title': 'The Ones Who Walk Away From Omelas',
-     'author': 'Ursula K. Le Guin',
-     'first_sentence': 'With a clamor of bells that set the swallows soaring, the Festival of Summer came to the city Omelas, bright-towered by the sea.',
-     'published': '1973'},
-    {'id': 2,
-     'title': 'Dhalgren',
-     'author': 'Samuel R. Delany',
-     'first_sentence': 'to wound the autumnal city.',
-     'published': '1975'}
-]
-
 # Create a connection with Oracle
 def createConnection():
     db_host = 'localhost'
@@ -95,6 +76,29 @@ def makeOrder(column, order):
         object_value = object_value + ","
     return object_value
 
+def makeHeader(json_data):
+    json_data = flask.request.json
+    output_list = json_data["data"]
+    objects_list = []
+    for json_object in output_list:
+        header = json_object["column"]
+        if isinstance(header, (int, float)):
+            header = str(header)
+        elif header.find("TAB.") == 0:
+            header = header.replace("TAB.","")
+        else:
+            header = "'" + header + "'"
+        objects_list.append(header)
+    return objects_list
+
+def qtyHeader(json_data):
+    json_data = flask.request.json
+    output_list = json_data["data"]
+    qty = 0
+    for json_object in output_list:
+        qty =  qty + 1
+    return qty
+
 def makeSelect(json_data):
     json_data = flask.request.json
     object_name = json_data["object"]
@@ -129,47 +133,6 @@ def home():
 <p>A prototype API for distant reading of science fiction novels.</p>'''
 
 # A route to return all of the available entries in our catalog.
-@app.route('/api/v1/resources/books/all', methods=['GET'])
-def api_all():
-    return jsonify(books)
-
-# A route to return all of the available entries in our catalog.
-@app.route('/api/v1/oracle/F4101', methods=['GET'])
-def api_oracle_f4101():
-    conn = createConnection()
-    cur = conn.cursor()
-    sql_string =   "SELECT\
-                        IMITM,\
-                        IMLITM,\
-                        IMDSC1,\
-                        IMDSC2\
-                    FROM\
-                        F4101\
-                    ORDER BY\
-                        IMITM"
-    cur.prepare(sql_string)
-    cur.execute(None, {})
-    rv = cur.fetchall()    
-    outputLog(sql_string)
-    outputLog(datetime.datetime.now())
-    if rv is None:
-        cur.close()
-        conn.close()
-        abort(204)
-    else:
-        objects_list = []
-        for row in rv:
-            reg           = {}
-            reg['IMITM' ] = row[0]
-            reg['IMLITM'] = row[1]
-            reg['IMPRP1'] = removeExtendCharacters(row[2])
-            reg['IMPRP2'] = removeExtendCharacters(row[3])
-            objects_list.append(reg)
-        cur.close()
-        conn.close()
-    return jsonify(objects_list)
-
-# A route to return all of the available entries in our catalog.
 @app.route('/api/v1/oracle/select', methods=['GET'])
 def api_oracle_select():
     conn = createConnection()
@@ -178,19 +141,17 @@ def api_oracle_select():
     cur.prepare(sql_string)
     cur.execute(None, {})
     rv = cur.fetchall()    
-    outputLog(sql_string)
-    outputLog(datetime.datetime.now())
     if rv is None:
         cur.close()
         conn.close()
         abort(204)
     else:
         objects_list = []
+        headers = makeHeader(flask.request.json)
         for row in rv:
-            reg           = {}
-            reg['IMITM' ] = row[0]
-            reg['IMPRP1'] = row[1]
-            reg['IMPRP2'] = row[2]
+            reg = {}
+            for i in range(qtyHeader(flask.request.json)):
+                reg[headers[i]] = row[i]
             objects_list.append(reg)
         cur.close()
         conn.close()

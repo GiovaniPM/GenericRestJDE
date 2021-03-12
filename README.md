@@ -94,8 +94,8 @@ ditaa(scale=1.5)
 >>FROM
 >>    F4101
 >>WHERE
->>    IMPRP1 = "A01" AND
->>    IMPRP2 = "B01"
+>>    IMPRP1 = 'A01' AND
+>>    IMPRP2 = 'B01'
 >>ORDER BY
 >>    IMITM ASC
 >>```
@@ -165,9 +165,9 @@ ditaa(scale=1.5)
 >>FROM
 >>    F4101
 >>WHERE
->>    (IMPRP1 = "A01" OR
->>    IMPRP1 = "A02) AND
->>    IMPRP2 = "B01"
+>>    (IMPRP1 = 'A01' OR
+>>    IMPRP1 = 'A02') AND
+>>    IMPRP2 = 'B01'
 >>ORDER BY
 >>    IMITM ASC
 >>```
@@ -235,9 +235,9 @@ ditaa(scale=1.5)
 >>    IMPRP1 = IMPRP2
 >>    IMPRP2 = IMPRP1
 >>WHERE
->>    (IMPRP1 = "A01" OR
->>    IMPRP1 = "A02) AND
->>    IMPRP2 = "B01"
+>>    (IMPRP1 = 'A01' OR
+>>    IMPRP1 = 'A02') AND
+>>    IMPRP2 = 'B01'
 >>ORDER BY
 >>    IMITM ASC
 >>```
@@ -263,7 +263,7 @@ ditaa(scale=1.5)
 >>    F4101
 >>    (IMITM,IMPRP1,IMPRP2)
 >>VALUES
->>    (123,"ITEM ONE","First Item")
+>>    (123,'ITEM ONE','First Item')
 >>```
 >### Request DELETE
 >>```PlantUML
@@ -317,9 +317,9 @@ ditaa(scale=1.5)
 >>DELETE FROM
 >>    F4101
 >>WHERE
->>    (IMPRP1 = "A01" OR
->>    IMPRP1 = "A02) AND
->>    IMPRP2 = "B01"
+>>    (IMPRP1 = 'A01' OR
+>>    IMPRP1 = 'A02') AND
+>>    IMPRP2 = 'B01'
 >>```
 >### Types of operator
 >>| Option 	|       Description       	|
