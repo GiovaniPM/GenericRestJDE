@@ -177,15 +177,15 @@ def home():
     <h1>Web Service Directory</h1>
     To see more information please visite the <a href="https://github.com/GiovaniPM/GenericRestJDE">project site.</a><br><br>
     <h2>Available functions:</h2>
-    <div style="font-family:Verdana;font-size:100%;"><br>- This directory <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></div>
-    <div style="font-family:Verdana;font-size:100%;"><br>- GET information <a href="http://127.0.0.1:5000/api/v1/oracle/select">http://127.0.0.1:5000/api/v1/oracle/select</a></div>
+    <h3>This directory <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></h3>
+    <h3>- GET information <a href="http://127.0.0.1:5000/api/v1/oracle/select">http://127.0.0.1:5000/api/v1/oracle/select</a></h3>
     <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
     <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/select</mark><br>
     Heards - <mark>{"Content-Type":"application/json"}</mark><br>
     Method - <mark>GET</mark><br>
     Body - <mark>{ "object": "F4111", "filter": [ { "operator": ">", "term1": "TAB.ILCRDJ", "term2": 118000 }, { "operator": "AND", "term1": null, "term2": null }, { "operator": "<", "term1": "TAB.ILCRDJ", "term2": 119000 } ], "order": null, "data": [ { "column": "TAB.ILITM", "value": null }, { "column": "TAB.ILLITM", "value": null }, { "column": "TAB.ILMCU", "value": null }, { "column": "TAB.ILCRDJ", "value": null } ] }</mark><br><br>
     curl -X GET -i -H "Content-Type: application/json" -d "{\"object\": \"F4111\", \"filter\": [{\"operator\": \"=\", \"term1\": \"TAB.ILLITM\", \"term2\": \"ME00004N                 \"}], \"order\": null, \"data\": [{\"column\": \"TAB.ILITM\", \"value\": null}, {\"column\": \"TAB.ILLITM\", \"value\": null}, {\"column\": \"TAB.ILMCU\", \"value\": null}, {\"column\": \"TAB.ILCRDJ\", \"value\": null}]}" http://127.0.0.1:5000/api/v1/oracle/select</div></div>
-    <div style="font-family:Verdana;font-size:100%;"><br>- GET information <a href="http://127.0.0.1:5000/api/v2/oracle/select">http://127.0.0.1:5000/api/v2/oracle/select</a> (does not work yeat)</div>
+    <h3>- GET information <a href="http://127.0.0.1:5000/api/v2/oracle/select">http://127.0.0.1:5000/api/v2/oracle/select</a> (does not work yeat)</h3>
     <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
     <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v2/oracle/select</mark><br>
     Heards - <mark>{"Content-Type":"application/json"}</mark><br>
