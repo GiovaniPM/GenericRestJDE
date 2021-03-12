@@ -69,6 +69,22 @@ def removePrefix(term):
         return term
 
 def makeWhere(operator, term1, term2):
+    if binders_activate == True:
+        existstring = False
+        if term1 != None:
+            if isinstance(term1, (str)):
+                existstring = True
+            term1 = removePrefix(term1)
+        if term2 != None:
+            if isinstance(term2, (str)):
+                existstring = True
+            term2 = removePrefix(term2)
+        if existstring == True:
+            term1 = "TRIM(" + term1 + ")"
+            term2 = "TRIM(" + term2 + ")"
+    else:
+        term1 = removePrefix(term1)
+        term2 = removePrefix(term2)
     if operator == "(":
         return "("
     elif operator == ")":
@@ -80,17 +96,17 @@ def makeWhere(operator, term1, term2):
     elif operator == "NOT":
         return " NOT "
     elif operator == "=":
-        return removePrefix(term1) + " = " + removePrefix(term2)
+        return term1 + " = " + term2
     elif operator == ">":
-        return removePrefix(term1) + " > " + removePrefix(term2)
+        return term1 + " > " + term2
     elif operator == "<":
-        return removePrefix(term1) + " < " + removePrefix(term2)
+        return term1 + " < " + term2
     elif operator == "<>":
-        return removePrefix(term1) + " <> " + removePrefix(term2)
+        return term1 + " <> " + term2
     elif operator == ">=":
-        return removePrefix(term1) + " >= " + removePrefix(term2)
+        return term1 + " >= " + term2
     elif operator == "<=":
-        return removePrefix(term1) + " <= " + removePrefix(term2)
+        return term1 + " <= " + term2
 
 def makeOrder(column, order):
     object_value = column
@@ -161,14 +177,14 @@ def home():
     <h1>Web Service Directory</h1>
     To see more information please visite the <a href="https://github.com/GiovaniPM/GenericRestJDE">project site.</a><br><br>
     <h2>Available functions:</h2>
-    <div style="font-family:Verdana;font-size:120%;"><br>- This directory <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></div>
-    <div style="font-family:Verdana;font-size:120%;"><br>- GET information <a href="http://127.0.0.1:5000/api/v1/oracle/select">http://127.0.0.1:5000/api/v1/oracle/select</a></div>
+    <div style="font-family:Verdana;font-size:100%;"><br>- This directory <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></div>
+    <div style="font-family:Verdana;font-size:100%;"><br>- GET information <a href="http://127.0.0.1:5000/api/v1/oracle/select">http://127.0.0.1:5000/api/v1/oracle/select</a></div>
     Ex.:<br>
     <div style="font-family:Verdana;background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/select</mark><br>
     Heards - <mark>{"Content-Type":"application/json"}</mark><br>
     Method - <mark>GET</mark><br>
     Body - <mark>{ "object": "F4111", "filter": [ { "operator": ">", "term1": "TAB.ILCRDJ", "term2": 118000 }, { "operator": "AND", "term1": null, "term2": null }, { "operator": "<", "term1": "TAB.ILCRDJ", "term2": 119000 } ], "order": null, "data": [ { "column": "TAB.ILITM", "value": null }, { "column": "TAB.ILLITM", "value": null }, { "column": "TAB.ILMCU", "value": null }, { "column": "TAB.ILCRDJ", "value": null } ] }</mark></div>
-    <div style="font-family:Verdana;font-size:120%;"><br>- GET information <a href="http://127.0.0.1:5000/api/v2/oracle/select">http://127.0.0.1:5000/api/v2/oracle/select</a></div>
+    <div style="font-family:Verdana;font-size:100%;"><br>- GET information <a href="http://127.0.0.1:5000/api/v2/oracle/select">http://127.0.0.1:5000/api/v2/oracle/select</a></div>
     Ex.:<br>
     <div style="font-family:Verdana;background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v2/oracle/select</mark><br>
     Heards - <mark>{"Content-Type":"application/json"}</mark><br>
@@ -216,7 +232,7 @@ def api_oracle_select2():
     binders_next = 0
     conn = createConnection()
     cur = conn.cursor()
-    # BUG: flask.request.json não retorna todos os espaços de um valor no JSON. Ex.: "ME00004N                 " vira "ME00004N "
+    # BUG: flask.request.json não retorna todos os espaços de um valor no JSON. Ex.: 'ME00004N                 ' vira 'ME00004N '
     sql_string = makeSelect(flask.request.json)
     if app.config["DEBUG"] == True:
         outputLog(flask.request.json)
