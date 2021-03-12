@@ -83,8 +83,10 @@ def makeWhere(operator, term1, term2):
             term1 = "TRIM(" + term1 + ")"
             term2 = "TRIM(" + term2 + ")"
     else:
-        term1 = removePrefix(term1)
-        term2 = removePrefix(term2)
+        if term1 != None:
+            term1 = removePrefix(term1)
+        if term2 != None:
+            term2 = removePrefix(term2)
     if operator == "(":
         return "("
     elif operator == ")":
@@ -177,7 +179,7 @@ def home():
     <h1>Web Service Directory</h1>
     To see more information please visite the <a href="https://github.com/GiovaniPM/GenericRestJDE">project site.</a><br><br>
     <h2>Available functions:</h2>
-    <h3>This directory <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></h3>
+    <h3>- This directory <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></h3>
     <h3>- GET information <a href="http://127.0.0.1:5000/api/v1/oracle/select">http://127.0.0.1:5000/api/v1/oracle/select</a></h3>
     <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
     <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/select</mark><br>
