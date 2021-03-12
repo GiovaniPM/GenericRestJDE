@@ -234,7 +234,7 @@ def api_oracle_select2():
     binders_next = 0
     conn = createConnection()
     cur = conn.cursor()
-    # BUG: flask.request.json não retorna todos os espaços de um valor no JSON. Ex.: 'ME00004N                 ' vira 'ME00004N '
+    # BUG: flask.request.json não retorna com todos os espaços de um valor no JSON. Ex.: 'ME00004N                 ' vira 'ME00004N '
     sql_string = makeSelect(flask.request.json)
     if app.config["DEBUG"] == True:
         outputLog(flask.request.json)
