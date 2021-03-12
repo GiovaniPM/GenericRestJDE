@@ -174,61 +174,60 @@ ditaa(scale=1.5)
 >>
 >>```PlantUML
 >>@startjson
-{
-  'object': 'F4111',
-  'filter': [
-    {
-      'operator': '>',
-      'term1': 'TAB.ILCRDJ',
-      'term2': 118000
-    },
-    {
-      'operator': 'AND',
-      'term1': None,
-      'term2': None
-    },
-    {
-      'operator': '<',
-      'term1': 'TAB.ILCRDJ',
-      'term2': 119000
-    }
-  ],
-  'order': None,
-  'data': [
-    {
-       'column': 'TAB.ILITM',
-       'value': None
-    },
-    {
-       'column': 'TAB.ILLITM',
-       'value': None
-    },
-    {
-       'column': 'TAB.ILMCU',
-       'value': None
-    },
-    {
-       'column': 'TAB.ILCRDJ',
-       'value': None
-    }
-  ]
-}
+>>{
+>>  'object': 'F4111',
+>>  'filter': [
+>>    {
+>>      'operator': '>',
+>>      'term1': 'TAB.ILCRDJ',
+>>      'term2': 118000
+>>    },
+>>    {
+>>      'operator': 'AND',
+>>      'term1': None,
+>>      'term2': None
+>>    },
+>>    {
+>>      'operator': '<',
+>>      'term1': 'TAB.ILCRDJ',
+>>      'term2': 119000
+>>    }
+>>  ],
+>>  'order': None,
+>>  'data': [
+>>    {
+>>       'column': 'TAB.ILITM',
+>>       'value': None
+>>    },
+>>    {
+>>       'column': 'TAB.ILLITM',
+>>       'value': None
+>>    },
+>>    {
+>>       'column': 'TAB.ILMCU',
+>>       'value': None
+>>    },
+>>    {
+>>       'column': 'TAB.ILCRDJ',
+>>       'value': None
+>>    }
+>>  ]
+>>}
 >>@endjson
 >>```
 >>
 >>```SQLdotnetcli
 >>SELECT
->>    IMITM,
->>    IMDSC1,
->>    IMDSC2
+>>    ILITM,
+>>    ILLITM,
+>>    ILMCU,
+>>    ILCRDJ,
+>>    rownum
 >>FROM
->>    F4101
+>>    F4111
 >>WHERE
->>    (IMPRP1 = 'A01' OR
->>    IMPRP1 = 'A02') AND
->>    IMPRP2 = 'B01'
->>ORDER BY
->>    IMITM ASC
+>>    ILCRDJ > 118000 AND
+>>    ILCRDJ < 119000
 >>```
 >### Request POST (Update)
 >>```PlantUML
