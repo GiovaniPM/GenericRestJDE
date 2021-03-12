@@ -175,41 +175,41 @@ ditaa(scale=1.5)
 >>```PlantUML
 >>@startjson
 >>{
->>  'object': 'F4111',
->>  'filter': [
+>>  "object": "F4111",
+>>  "filter": [
 >>    {
->>      'operator': '>',
->>      'term1': 'TAB.ILCRDJ',
->>      'term2': 118000
+>>      "operator": ">",
+>>      "term1": "TAB.ILCRDJ",
+>>      "term2": 118000
 >>    },
 >>    {
->>      'operator': 'AND',
->>      'term1': None,
->>      'term2': None
+>>      "operator": "AND",
+>>      "term1": null,
+>>      "term2": null
 >>    },
 >>    {
->>      'operator': '<',
->>      'term1': 'TAB.ILCRDJ',
->>      'term2': 119000
+>>      "operator": "<",
+>>      "term1": "TAB.ILCRDJ",
+>>      "term2": 119000
 >>    }
 >>  ],
->>  'order': None,
->>  'data': [
+>>  "order": null,
+>>  "data": [
 >>    {
->>       'column': 'TAB.ILITM',
->>       'value': None
+>>       "column": "TAB.ILITM",
+>>       "value": null
 >>    },
 >>    {
->>       'column': 'TAB.ILLITM',
->>       'value': None
+>>       "column": "TAB.ILLITM",
+>>       "value": null
 >>    },
 >>    {
->>       'column': 'TAB.ILMCU',
->>       'value': None
+>>       "column": "TAB.ILMCU",
+>>       "value": null
 >>    },
 >>    {
->>       'column': 'TAB.ILCRDJ',
->>       'value': None
+>>       "column": "TAB.ILCRDJ",
+>>       "value": null
 >>    }
 >>  ]
 >>}
