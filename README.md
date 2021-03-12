@@ -271,12 +271,7 @@ ditaa(scale=1.5)
 >>      "term2": "B01"
 >>    }
 >>  ],
->>  "order": [
->>    {
->>      "column": "TAB.IMITM",
->>      "sort": "A"
->>    }
->>  ],
+>>  "order": null,
 >>  "data":
 >>    [
 >>      {
@@ -302,8 +297,6 @@ ditaa(scale=1.5)
 >>    (IMPRP1 = 'A01' OR
 >>    IMPRP1 = 'A02') AND
 >>    IMPRP2 = 'B01'
->>ORDER BY
->>    IMITM ASC
 >>```
 >### Request POST (Insert)
 >>```PlantUML

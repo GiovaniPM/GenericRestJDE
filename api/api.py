@@ -122,6 +122,13 @@ def makeWhere(operator, term1, term2):
     elif operator == "<=":
         return term1 + " <= " + term2
 
+def makeSet(term1, term2):
+    if term1 != None:
+        term1 = removePrefix(term1)
+    if term2 != None:
+        term2 = removePrefix(term2)
+    return term1 + " = " + term2
+
 def makeOrder(column, order):
     object_value = column
     if object_value.find("TAB.") == 0:
@@ -190,28 +197,22 @@ def makeUpdate(json_data):
     object_name = json_data["object"]
     filter_list = json_data["filter"]
     order_list = json_data["order"]
-    update_list = json_data["data"]
-    sql_string = "UPDATE"
+    output_list = json_data["data"]
+    sql_string = "UPDATE "
     sql_string = sql_string + object_name
     sql_string = sql_string + " SET "
-    for json_object in update_list:
-        object_value = json_object["column"]
-        if object_value.find("TAB.") == 0:
-            object_value = object_value.replace("TAB.","")
-        sql_string = sql_string + " " + object_value + ","
-    sql_string = sql_string + " rownum "
-    sql_string = sql_string + " FROM "
+    update_list = ""
+    for json_object in output_list:
+        if update_list == "":
+            update_list = makeSet(json_object["column"], json_object["value"])
+        else:
+            update_list = update_list + ", " + makeSet(json_object["column"], json_object["value"])
+    sql_string = sql_string + " " + update_list
     if filter_list != None:
         sql_string = sql_string + " WHERE "
         for json_object in filter_list:
             object_value = makeWhere(json_object["operator"], json_object["term1"], json_object["term2"])
             sql_string = sql_string + " " + object_value
-    if order_list != None:
-        sql_string = sql_string + " ORDER BY "
-        for json_object in order_list:
-            object_value = makeOrder(json_object["column"], json_object["sort"])
-            sql_string = sql_string + " " + object_value
-        sql_string = sql_string + " 1 "
     return sql_string
 
 @app.route('/', methods=['GET'])
@@ -304,7 +305,7 @@ def api_oracle_select2():
     return jsonify(objects_list)
 
 @app.route('/api/v1/oracle/update', methods=['POST'])
-def api_oracle_select2():
+def api_oracle_update():
     global binders_activate, binders_list, binders_next
     binders_activate = True
     binders_list = {}
@@ -318,21 +319,8 @@ def api_oracle_select2():
         outputLog(binders_list)
     cur.prepare(sql_string)
     cur.execute(None, binders_list)
-    rv = cur.fetchall()    
-    if rv is None:
-        cur.close()
-        conn.close()
-        abort(204)
-    else:
-        objects_list = []
-        headers = makeHeader(flask.request.json)
-        for row in rv:
-            reg = {}
-            for i in range(qtyHeader(flask.request.json)):
-                reg[headers[i]] = row[i]
-            objects_list.append(reg)
-        cur.close()
-        conn.close()
-    return jsonify(objects_list)
+    cur.close()
+    conn.close()
+    return jsonify([])
 
 app.run()
