@@ -171,6 +171,65 @@ ditaa(scale=1.5)
 >>ORDER BY
 >>    IMITM ASC
 >>```
+>>
+>>```PlantUML
+>>@startjson
+{
+  'object': 'F4111',
+  'filter': [
+    {
+      'operator': '>',
+      'term1': 'TAB.ILCRDJ',
+      'term2': 118000
+    },
+    {
+      'operator': 'AND',
+      'term1': None,
+      'term2': None
+    },
+    {
+      'operator': '<',
+      'term1': 'TAB.ILCRDJ',
+      'term2': 119000
+    }
+  ],
+  'order': None,
+  'data': [
+    {
+       'column': 'TAB.ILITM',
+       'value': None
+    },
+    {
+       'column': 'TAB.ILLITM',
+       'value': None
+    },
+    {
+       'column': 'TAB.ILMCU',
+       'value': None
+    },
+    {
+       'column': 'TAB.ILCRDJ',
+       'value': None
+    }
+  ]
+}
+>>@endjson
+>>```
+>>
+>>```SQLdotnetcli
+>>SELECT
+>>    IMITM,
+>>    IMDSC1,
+>>    IMDSC2
+>>FROM
+>>    F4101
+>>WHERE
+>>    (IMPRP1 = 'A01' OR
+>>    IMPRP1 = 'A02') AND
+>>    IMPRP2 = 'B01'
+>>ORDER BY
+>>    IMITM ASC
+>>```
 >### Request POST (Update)
 >>```PlantUML
 >>@startjson

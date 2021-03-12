@@ -38,6 +38,15 @@ def outputLog(text):
 def removeExtendCharacters(txt):
     return normalize('NFKD', txt).encode('ASCII', 'ignore').decode('ASCII')
 
+def removePrefix(term):
+    if isinstance(term, (int, float)):
+        term = str(term)
+    elif term.find("TAB.") == 0:
+        term = term.replace("TAB.","")
+    else:
+        term = "'" + term + "'"
+    return term
+
 def makeWhere(operator, term1, term2):
     if operator == "(":
         return "("
@@ -50,19 +59,17 @@ def makeWhere(operator, term1, term2):
     elif operator == "NOT":
         return " NOT "
     elif operator == "=":
-        if isinstance(term1, (int, float)):
-            term1 = str(term1)
-        elif term1.find("TAB.") == 0:
-            term1 = term1.replace("TAB.","")
-        else:
-            term1 = "'" + term1 + "'"
-        if isinstance(term2, (int, float)):
-            term2 = str(term2)
-        elif term1.find("TAB.") == 0:
-            term2 = term2.replace("TAB.","")
-        else:
-            term2 = "'" + term2 + "'"
-        return term1 + " = " + term2
+        return removePrefix(term1) + " = " + removePrefix(term2)
+    elif operator == ">":
+        return removePrefix(term1) + " > " + removePrefix(term2)
+    elif operator == "<":
+        return removePrefix(term1) + " < " + removePrefix(term2)
+    elif operator == "<>":
+        return removePrefix(term1) + " <> " + removePrefix(term2)
+    elif operator == ">=":
+        return removePrefix(term1) + " >= " + removePrefix(term2)
+    elif operator == "<=":
+        return removePrefix(term1) + " <= " + removePrefix(term2)
 
 def makeOrder(column, order):
     object_value = column
@@ -129,8 +136,7 @@ def makeSelect(json_data):
 
 @app.route('/', methods=['GET'])
 def home():
-    return '''<h1>Distant Reading Archive</h1>
-<p>A prototype API for distant reading of science fiction novels.</p>'''
+    return '''<h1>Web Service Directory</h1><br>https://github.com/GiovaniPM/GenericRestJDE'''
 
 # A route to return all of the available entries in our catalog.
 @app.route('/api/v1/oracle/select', methods=['GET'])
@@ -138,6 +144,9 @@ def api_oracle_select():
     conn = createConnection()
     cur = conn.cursor()
     sql_string = makeSelect(flask.request.json)
+    if app.config["DEBUG"] == True:
+        outputLog(flask.request.json)
+        outputLog(sql_string)
     cur.prepare(sql_string)
     cur.execute(None, {})
     rv = cur.fetchall()    
