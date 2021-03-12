@@ -185,6 +185,35 @@ def makeSelect(json_data):
         sql_string = sql_string + " 1 "
     return sql_string
 
+def makeUpdate(json_data):
+    json_data = flask.request.json
+    object_name = json_data["object"]
+    filter_list = json_data["filter"]
+    order_list = json_data["order"]
+    update_list = json_data["data"]
+    sql_string = "UPDATE"
+    sql_string = sql_string + object_name
+    sql_string = sql_string + " SET "
+    for json_object in update_list:
+        object_value = json_object["column"]
+        if object_value.find("TAB.") == 0:
+            object_value = object_value.replace("TAB.","")
+        sql_string = sql_string + " " + object_value + ","
+    sql_string = sql_string + " rownum "
+    sql_string = sql_string + " FROM "
+    if filter_list != None:
+        sql_string = sql_string + " WHERE "
+        for json_object in filter_list:
+            object_value = makeWhere(json_object["operator"], json_object["term1"], json_object["term2"])
+            sql_string = sql_string + " " + object_value
+    if order_list != None:
+        sql_string = sql_string + " ORDER BY "
+        for json_object in order_list:
+            object_value = makeOrder(json_object["column"], json_object["sort"])
+            sql_string = sql_string + " " + object_value
+        sql_string = sql_string + " 1 "
+    return sql_string
+
 @app.route('/', methods=['GET'])
 def home():
     return '''
@@ -251,6 +280,38 @@ def api_oracle_select2():
     # FIX: flask.request.json não retorna com todos os espaços de um valor no JSON. Ex.: 'ME00004N                 ' vira 'ME00004N '
     # Solved changed ILLITM = 'ME00004N                 ' for TRIM(ILLITM) = 'ME00004N'
     sql_string = makeSelect(flask.request.json)
+    if app.config["DEBUG"] == True:
+        outputLog(flask.request.json)
+        outputLog(sql_string)
+        outputLog(binders_list)
+    cur.prepare(sql_string)
+    cur.execute(None, binders_list)
+    rv = cur.fetchall()    
+    if rv is None:
+        cur.close()
+        conn.close()
+        abort(204)
+    else:
+        objects_list = []
+        headers = makeHeader(flask.request.json)
+        for row in rv:
+            reg = {}
+            for i in range(qtyHeader(flask.request.json)):
+                reg[headers[i]] = row[i]
+            objects_list.append(reg)
+        cur.close()
+        conn.close()
+    return jsonify(objects_list)
+
+@app.route('/api/v1/oracle/update', methods=['POST'])
+def api_oracle_select2():
+    global binders_activate, binders_list, binders_next
+    binders_activate = True
+    binders_list = {}
+    binders_next = 0
+    conn = createConnection()
+    cur = conn.cursor()
+    sql_string = makeUpdate(flask.request.json)
     if app.config["DEBUG"] == True:
         outputLog(flask.request.json)
         outputLog(sql_string)

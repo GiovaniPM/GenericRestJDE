@@ -290,7 +290,7 @@ ditaa(scale=1.5)
 >>UPDATE
 >>    F4101
 >>SET
->>    IMPRP1 = IMPRP2
+>>    IMPRP1 = IMPRP2,
 >>    IMPRP2 = IMPRP1
 >>WHERE
 >>    (IMPRP1 = 'A01' OR
