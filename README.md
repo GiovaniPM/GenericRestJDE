@@ -278,10 +278,16 @@ ditaa(scale=1.5)
 >>    }
 >>  ],
 >>  "data":
->>    {
->>      "TAB.IMDSC1": "TAB.IMDSC2",
->>      "TAB.IMDSC2": "TAB.IMDSC1"
->>    }
+>>    [
+>>      {
+>>        "column": "TAB.IMDSC1",
+>>        "value": "TAB.IMDSC2"
+>>      },
+>>      {
+>>        "column": "TAB.IMDSC2",
+>>        "value": "TAB.IMDSC1"
+>>      }
+>>    ]
 >>}
 >>@endjson
 >>```
