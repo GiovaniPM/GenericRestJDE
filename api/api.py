@@ -57,6 +57,72 @@ def outputLog(text):
 def removeExtendCharacters(txt):
     return normalize('NFKD', txt).encode('ASCII', 'ignore').decode('ASCII')
 
+def makeWhere(operator, term1, term2):
+    if operator == "(":
+        return "("
+    elif operator == ")":
+        return ")"
+    elif operator == "AND":
+        return " AND "
+    elif operator == "OR":
+        return " OR "
+    elif operator == "NOT":
+        return " NOT "
+    elif operator == "=":
+        if isinstance(term1, (int, float)):
+            term1 = str(term1)
+        elif term1.find("TAB.") == 0:
+            term1 = term1.replace("TAB.","")
+        else:
+            term1 = "'" + term1 + "'"
+        if isinstance(term2, (int, float)):
+            term2 = str(term2)
+        elif term1.find("TAB.") == 0:
+            term2 = term2.replace("TAB.","")
+        else:
+            term2 = "'" + term2 + "'"
+        return term1 + " = " + term2
+
+def makeOrder(column, order):
+    object_value = column
+    if object_value.find("TAB.") == 0:
+        object_value = object_value.replace("TAB.","")
+    if order == "A":
+        object_value = object_value + " ASC,"
+    elif order == "D":
+        object_value = object_value + " DESC,"
+    else:
+        object_value = object_value + ","
+    return object_value
+
+def makeSelect(json_data):
+    json_data = flask.request.json
+    object_name = json_data["object"]
+    filter_list = json_data["filter"]
+    order_list = json_data["order"]
+    output_list = json_data["data"]
+    sql_string = "SELECT"
+    for json_object in output_list:
+        object_value = json_object["column"]
+        if object_value.find("TAB.") == 0:
+            object_value = object_value.replace("TAB.","")
+        sql_string = sql_string + " " + object_value + ","
+    sql_string = sql_string + " rownum "
+    sql_string = sql_string + " FROM "
+    sql_string = sql_string + object_name
+    if filter_list != None:
+        sql_string = sql_string + " WHERE "
+        for json_object in filter_list:
+            object_value = makeWhere(json_object["operator"], json_object["term1"], json_object["term2"])
+            sql_string = sql_string + " " + object_value
+    if order_list != None:
+        sql_string = sql_string + " ORDER BY "
+        for json_object in order_list:
+            object_value = makeOrder(json_object["column"], json_object["sort"])
+            sql_string = sql_string + " " + object_value
+        sql_string = sql_string + " 1 "
+    return sql_string
+
 @app.route('/', methods=['GET'])
 def home():
     return '''<h1>Distant Reading Archive</h1>
@@ -106,17 +172,28 @@ def api_oracle_f4101():
 # A route to return all of the available entries in our catalog.
 @app.route('/api/v1/oracle/select', methods=['GET'])
 def api_oracle_select():
-    json_data = flask.request.json
-    sql_string = "SELECT"
-    object_name = json_data["object"]
-    filter_list = json_data["filter"]
-    order_list = json_data["order"]
-    output_list = json_data["data"]
-    for json_object in output_list:
-        object_value = json_object["column"]
-        sql_string = sql_string + " " + object_value + ","
-    sql_string = sql_string + " 1 "
+    conn = createConnection()
+    cur = conn.cursor()
+    sql_string = makeSelect(flask.request.json)
+    cur.prepare(sql_string)
+    cur.execute(None, {})
+    rv = cur.fetchall()    
     outputLog(sql_string)
-    return object_name
+    outputLog(datetime.datetime.now())
+    if rv is None:
+        cur.close()
+        conn.close()
+        abort(204)
+    else:
+        objects_list = []
+        for row in rv:
+            reg           = {}
+            reg['IMITM' ] = row[0]
+            reg['IMPRP1'] = row[1]
+            reg['IMPRP2'] = row[2]
+            objects_list.append(reg)
+        cur.close()
+        conn.close()
+    return jsonify(objects_list)
 
 app.run()

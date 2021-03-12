@@ -63,7 +63,7 @@ ditaa(scale=1.5)
 >>  ],
 >>  "order": [
 >>    {
->>      "colunm": "TAB.IMITM",
+>>      "column": "TAB.IMITM",
 >>      "sort": "A"
 >>    }
 >>  ],
@@ -143,7 +143,7 @@ ditaa(scale=1.5)
 >>  ],
 >>  "order": [
 >>    {
->>      "colunm": "TAB.IMITM",
+>>      "column": "TAB.IMITM",
 >>      "sort": "A"
 >>    }
 >>  ],
@@ -215,7 +215,7 @@ ditaa(scale=1.5)
 >>  ],
 >>  "order": [
 >>    {
->>      "colunm": "TAB.IMITM",
+>>      "column": "TAB.IMITM",
 >>      "sort": "A"
 >>    }
 >>  ],
