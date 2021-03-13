@@ -8,7 +8,7 @@ import json
 import os
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 
 class Binders:
     activate = True
@@ -259,48 +259,6 @@ def makeDelete(json_data):
             sql_string = sql_string + " " + object_value
     return sql_string
 
-@app.route('/', methods=['GET'])
-def home():
-    return '''
-    <h1>Web Service Directory</h1>
-    To see more information please visite the <a href="https://github.com/GiovaniPM/GenericRestJDE">project site.</a><br><br>
-    <h2>Available functions:</h2>
-
-    <h3>- This directory <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></h3>
-
-    <h3>- GET information <a href="http://127.0.0.1:5000/api/v1/oracle/select">http://127.0.0.1:5000/api/v1/oracle/select</a></h3>
-    <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
-    <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/select</mark><br>
-    Heards - <mark>{"Content-Type":"application/json"}</mark><br>
-    Method - <mark>GET</mark><br>
-    Body - <mark>{ "object": "F4111", "filter": [ { "operator": ">", "term1": "TAB.ILCRDJ", "term2": 118000 }, { "operator": "AND", "term1": null, "term2": null }, { "operator": "<", "term1": "TAB.ILCRDJ", "term2": 119000 } ], "order": null, "data": [ { "column": "TAB.ILITM", "value": null }, { "column": "TAB.ILLITM", "value": null }, { "column": "TAB.ILMCU", "value": null }, { "column": "TAB.ILCRDJ", "value": null } ] }</mark><br><br>
-    curl -X GET -i -H "Content-Type: application/json" -d "{\"object\": \"F4111\", \"filter\": [{\"operator\": \"=\", \"term1\": \"TAB.ILLITM\", \"term2\": \"ME00004N                 \"}], \"order\": null, \"data\": [{\"column\": \"TAB.ILITM\", \"value\": null}, {\"column\": \"TAB.ILLITM\", \"value\": null}, {\"column\": \"TAB.ILMCU\", \"value\": null}, {\"column\": \"TAB.ILCRDJ\", \"value\": null}]}" http://127.0.0.1:5000/api/v1/oracle/select</div></div>
-
-    <h3>- CHANGE information <a href="http://127.0.0.1:5000/api/v1/oracle/update">http://127.0.0.1:5000/api/v1/oracle/update</a></h3>
-    <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
-    <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/update</mark><br>
-    Heards - <mark>{"Content-Type":"application/json"}</mark><br>
-    Method - <mark>POST</mark><br>
-    Body - <mark>{ "object": "F4101", "filter": [ { "operator": "(", "term1": null, "term2": null }, { "operator": "=", "term1": "TAB.IMPRP1", "term2": "A01" }, { "operator": "OR", "term1": null, "term2": null }, { "operator": "=", "term1": "TAB.IMPRP1", "term2": "A02" }, { "operator": ")", "term1": null, "term2": null }, { "operator": "AND", "term1": null, "term2": null }, { "operator": "=", "term1": "TAB.IMPRP2", "term2": "B01" } ], "order": null, "data": [ { "column": "TAB.IMDSC1", "value": "TAB.IMDSC2" }, { "column": "TAB.IMDSC2", "value": "TAB.IMDSC1" } ] }</mark><br><br>
-    curl -X POST -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": [ { \"operator\": \"(\", \"term1\": null, \"term2\": null }, { \"operator\": \"=\", \"term1\": \"TAB.IMPRP1\", \"term2\": \"A01\" }, { \"operator\": \"OR\", \"term1\": null, \"term2\": null }, { \"operator\": \"=\", \"term1\": \"TAB.IMPRP1\", \"term2\": \"A02\" }, { \"operator\": \")\", \"term1\": null, \"term2\": null }, { \"operator\": \"AND\", \"term1\": null, \"term2\": null }, { \"operator\": \"=\", \"term1\": \"TAB.IMPRP2\", \"term2\": \"B01\" } ], \"order\": null, \"data\": [ { \"column\": \"TAB.IMDSC1\", \"value\": \"TAB.IMDSC2\" }, { \"column\": \"TAB.IMDSC2\", \"value\": \"TAB.IMDSC1\" } ] }" http://127.0.0.1:5000/api/v1/oracle/update</div></div>
-
-    <h3>- ADD information <a href="http://127.0.0.1:5000/api/v1/oracle/insert">http://127.0.0.1:5000/api/v1/oracle/insert</a></h3>
-    <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
-    <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/insert</mark><br>
-    Heards - <mark>{"Content-Type":"application/json"}</mark><br>
-    Method - <mark>POST</mark><br>
-    Body - <mark>{ "object": "F4101", "filter": null, "order": null, "data": [ { "column": "TAB.IMITM", "value": 123 }, { "column": "TAB.IMDSC1", "value": "ITEM ONE" }, { "column": "TAB.IMDSC2", "value": "First Item" } ] } </mark><br><br>
-    curl -X POST -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": null, \"order\": null, \"data\": [ { \"column\": \"TAB.IMITM\", \"value\": 123 }, { \"column\": \"TAB.IMDSC1\", \"value\": \"ITEM ONE\" }, { \"column\": \"TAB.IMDSC2\", \"value\": \"First Item\" } ] } " http://127.0.0.1:5000/api/v1/oracle/insert</div></div>
-
-    <h3>- DELETE information <a href="http://127.0.0.1:5000/api/v1/oracle/delete">http://127.0.0.1:5000/api/v1/oracle/delete</a></h3>
-    <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
-    <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/delete</mark><br>
-    Heards - <mark>{"Content-Type":"application/json"}</mark><br>
-    Method - <mark>DELETE</mark><br>
-    Body - <mark>{ "object": "F4101", "filter": [ { "operator": "=", "term1": "TAB.IMITM", "term2": 123 } ], "order": null, "data": null }</mark><br><br>
-    curl -X POST -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": [ { \"operator\": \"=\", \"term1\": \"TAB.IMITM\", \"term2\": 123 } ], \"order\": null, \"data\": null }" http://127.0.0.1:5000/api/v1/oracle/delete</div></div>
-    '''
-
 @app.route('/api/v1/oracle/select', methods=['GET'])
 def api_oracle_select():
     clearDefinitions()
@@ -394,5 +352,47 @@ def api_oracle_delete():
     cur.close()
     conn.close()
     return jsonify([])
+
+@app.route('/', methods=['GET'])
+def home():
+    return '''
+    <h1>Web Service Directory</h1>
+    To see more information please visite the <a href="https://github.com/GiovaniPM/GenericRestJDE">project site.</a><br><br>
+    <h2>Available functions:</h2>
+
+    <h3>- This directory <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></h3>
+
+    <h3>- GET information <a href="http://127.0.0.1:5000/api/v1/oracle/select">http://127.0.0.1:5000/api/v1/oracle/select</a></h3>
+    <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
+    <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/select</mark><br>
+    Heards - <mark>{"Content-Type":"application/json"}</mark><br>
+    Method - <mark>GET</mark><br>
+    Body - <mark>{ "object": "F4111", "filter": [ { "operator": ">", "term1": "TAB.ILCRDJ", "term2": 118000 }, { "operator": "AND", "term1": null, "term2": null }, { "operator": "<", "term1": "TAB.ILCRDJ", "term2": 119000 } ], "order": null, "data": [ { "column": "TAB.ILITM", "value": null }, { "column": "TAB.ILLITM", "value": null }, { "column": "TAB.ILMCU", "value": null }, { "column": "TAB.ILCRDJ", "value": null } ] }</mark><br><br>
+    curl -X GET -i -H "Content-Type: application/json" -d "{\"object\": \"F4111\", \"filter\": [{\"operator\": \"=\", \"term1\": \"TAB.ILLITM\", \"term2\": \"ME00004N                 \"}], \"order\": null, \"data\": [{\"column\": \"TAB.ILITM\", \"value\": null}, {\"column\": \"TAB.ILLITM\", \"value\": null}, {\"column\": \"TAB.ILMCU\", \"value\": null}, {\"column\": \"TAB.ILCRDJ\", \"value\": null}]}" http://127.0.0.1:5000/api/v1/oracle/select</div></div>
+
+    <h3>- CHANGE information <a href="http://127.0.0.1:5000/api/v1/oracle/update">http://127.0.0.1:5000/api/v1/oracle/update</a></h3>
+    <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
+    <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/update</mark><br>
+    Heards - <mark>{"Content-Type":"application/json"}</mark><br>
+    Method - <mark>POST</mark><br>
+    Body - <mark>{ "object": "F4101", "filter": [ { "operator": "(", "term1": null, "term2": null }, { "operator": "=", "term1": "TAB.IMPRP1", "term2": "A01" }, { "operator": "OR", "term1": null, "term2": null }, { "operator": "=", "term1": "TAB.IMPRP1", "term2": "A02" }, { "operator": ")", "term1": null, "term2": null }, { "operator": "AND", "term1": null, "term2": null }, { "operator": "=", "term1": "TAB.IMPRP2", "term2": "B01" } ], "order": null, "data": [ { "column": "TAB.IMDSC1", "value": "TAB.IMDSC2" }, { "column": "TAB.IMDSC2", "value": "TAB.IMDSC1" } ] }</mark><br><br>
+    curl -X POST -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": [ { \"operator\": \"(\", \"term1\": null, \"term2\": null }, { \"operator\": \"=\", \"term1\": \"TAB.IMPRP1\", \"term2\": \"A01\" }, { \"operator\": \"OR\", \"term1\": null, \"term2\": null }, { \"operator\": \"=\", \"term1\": \"TAB.IMPRP1\", \"term2\": \"A02\" }, { \"operator\": \")\", \"term1\": null, \"term2\": null }, { \"operator\": \"AND\", \"term1\": null, \"term2\": null }, { \"operator\": \"=\", \"term1\": \"TAB.IMPRP2\", \"term2\": \"B01\" } ], \"order\": null, \"data\": [ { \"column\": \"TAB.IMDSC1\", \"value\": \"TAB.IMDSC2\" }, { \"column\": \"TAB.IMDSC2\", \"value\": \"TAB.IMDSC1\" } ] }" http://127.0.0.1:5000/api/v1/oracle/update</div></div>
+
+    <h3>- ADD information <a href="http://127.0.0.1:5000/api/v1/oracle/insert">http://127.0.0.1:5000/api/v1/oracle/insert</a></h3>
+    <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
+    <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/insert</mark><br>
+    Heards - <mark>{"Content-Type":"application/json"}</mark><br>
+    Method - <mark>POST</mark><br>
+    Body - <mark>{ "object": "F4101", "filter": null, "order": null, "data": [ { "column": "TAB.IMITM", "value": 123 }, { "column": "TAB.IMDSC1", "value": "ITEM ONE" }, { "column": "TAB.IMDSC2", "value": "First Item" } ] } </mark><br><br>
+    curl -X POST -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": null, \"order\": null, \"data\": [ { \"column\": \"TAB.IMITM\", \"value\": 123 }, { \"column\": \"TAB.IMDSC1\", \"value\": \"ITEM ONE\" }, { \"column\": \"TAB.IMDSC2\", \"value\": \"First Item\" } ] } " http://127.0.0.1:5000/api/v1/oracle/insert</div></div>
+
+    <h3>- DELETE information <a href="http://127.0.0.1:5000/api/v1/oracle/delete">http://127.0.0.1:5000/api/v1/oracle/delete</a></h3>
+    <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
+    <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/delete</mark><br>
+    Heards - <mark>{"Content-Type":"application/json"}</mark><br>
+    Method - <mark>DELETE</mark><br>
+    Body - <mark>{ "object": "F4101", "filter": [ { "operator": "=", "term1": "TAB.IMITM", "term2": 123 } ], "order": null, "data": null }</mark><br><br>
+    curl -X DELETE -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": [ { \"operator\": \"=\", \"term1\": \"TAB.IMITM\", \"term2\": 123 } ], \"order\": null, \"data\": null }" http://127.0.0.1:5000/api/v1/oracle/delete</div></div>
+    '''
 
 app.run()
