@@ -301,6 +301,9 @@ ditaa(scale=1.5)
 >>    IMPRP1 = 'A02') AND
 >>    IMPRP2 = 'B01'
 >>```
+>>```bash
+>>curl -X POST -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": [ { \"operator\": \"(\", \"term1\": null, \"term2\": null }, { \"operator\": \"=\", \"term1\": \"TAB.IMPRP1\", \"term2\": \"A01\" }, { \"operator\": \"OR\", \"term1\": null, \"term2\": null }, { \"operator\": \"=\", \"term1\": \"TAB.IMPRP1\", \"term2\": \"A02\" }, { \"operator\": \")\", \"term1\": null, \"term2\": null }, { \"operator\": \"AND\", \"term1\": null, \"term2\": null }, { \"operator\": \"=\", \"term1\": \"TAB.IMPRP2\", \"term2\": \"B01\" } ], \"order\": null, \"data\": [ { \"column\": \"TAB.IMDSC1\", \"value\": \"TAB.IMDSC2\" }, { \"column\": \"TAB.IMDSC2\", \"value\": \"TAB.IMDSC1\" } ] }" http://127.0.0.1:5000/api/v1/oracle/update
+>>```
 >### Request POST (Insert)
 >>```PlantUML
 >>@startjson
@@ -333,6 +336,9 @@ ditaa(scale=1.5)
 >>    (IMITM,IMPRP1,IMPRP2)
 >>VALUES
 >>    (123,'ITEM ONE','First Item')
+>>```
+>>```bash
+>>curl -X POST -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": null, \"order\": null, \"data\": [ { \"column\": \"TAB.IMITM\", \"value\": 123 }, { \"column\": \"TAB.IMDSC1\", \"value\": \"ITEM ONE\" }, { \"column\": \"TAB.IMDSC2\", \"value\": \"First Item\" } ] } " http://127.0.0.1:5000/api/v1/oracle/insert
 >>```
 >### Request DELETE
 >>```PlantUML
@@ -389,6 +395,9 @@ ditaa(scale=1.5)
 >>    (IMPRP1 = 'A01' OR
 >>    IMPRP1 = 'A02') AND
 >>    IMPRP2 = 'B01'
+>>```
+>>```bash
+>>curl -X DELETE -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": [ { \"operator\": \"=\", \"term1\": \"TAB.IMITM\", \"term2\": 123 } ], \"order\": null, \"data\": null }" http://127.0.0.1:5000/api/v1/oracle/delete
 >>```
 >### Types of operator
 >>| Option 	|       Description       	|
