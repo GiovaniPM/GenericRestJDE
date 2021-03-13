@@ -11,23 +11,21 @@ app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
 class Binders:
-    activate = True
+    activate = False
     parameters = {}
     next = 0
 
-class DBKeys:
+binders_activate = False
+binders_list = {}
+binders_next = 0
+
+def createConnection():
     db_host = 'localhost'
     db_port = 1521
     db_servicename = 'XE'
     db_user = 'C##GIOVANIPM'
     db_pass = 'Pm11092j'
 
-def clearDefinitions():
-    global Binders
-    Binders.parameters = {}
-    Binders.next = 0    
-
-def createConnection():
     conn_string = "\
                    (DESCRIPTION =\
                         (ADDRESS_LIST =\
@@ -38,8 +36,8 @@ def createConnection():
                         (CONNECT_DATA =\
                             (SERVICE_NAME = %s)\
                         )\
-                    )" % (DBKeys.db_host, str(DBKeys.db_port), DBKeys.db_servicename)
-    return cx_Oracle.connect(user=DBKeys.db_user, password=DBKeys.db_pass, dsn=conn_string, encoding='UTF-8')
+                    )" % (db_host, str(db_port), db_servicename)
+    return cx_Oracle.connect(user=db_user, password=db_pass, dsn=conn_string, encoding='UTF-8')
 
 def outputLog(text):
     text = str(text)
@@ -49,12 +47,12 @@ def removeExtendCharacters(txt):
     return normalize('NFKD', txt).encode('ASCII', 'ignore').decode('ASCII')
 
 def binderCreate(txt):
-    global Binders
-    Binders.next = Binders.next + 1
-    bindersName = "B" + str(Binders.next)
-    key = bindersName
-    Binders.parameters[key] = txt
-    return ":" + bindersName
+    global binders_list, binders_next
+    binders_next = binders_next + 1
+    binders_name = "B" + str(binders_next)
+    key = binders_name
+    binders_list[key] = txt
+    return ":" + binders_name
 
 def defineType(txt):
     if txt != None:
@@ -66,7 +64,7 @@ def defineType(txt):
             return "str"
 
 def removePrefix(term):
-    if Binders.activate == True:
+    if binders_activate == True:
         if defineType(term) == "int":
             term = binderCreate(str(term))
         elif defineType(term) == "tab":
@@ -84,7 +82,7 @@ def removePrefix(term):
         return term
 
 def makeWhere(operator, term1, term2):
-    if Binders.activate == True:
+    if binders_activate == True:
         string1 = defineType(term1)
         string2 = defineType(term2)
         if term1 != None:
@@ -220,54 +218,13 @@ def makeUpdate(json_data):
             sql_string = sql_string + " " + object_value
     return sql_string
 
-def makeInsert(json_data):
-    json_data = flask.request.json
-    object_name = json_data["object"]
-    output_list = json_data["data"]
-    sql_string = "INSERT INTO "
-    sql_string = sql_string + object_name
-    sql_string = sql_string + " ( "
-    insert_list = ""
-    for json_object in output_list:
-        if insert_list == "":
-            insert_list = removePrefix(json_object["column"])
-        else:
-            insert_list = insert_list + ", " + removePrefix(json_object["column"])
-    sql_string = sql_string + " " + insert_list
-    sql_string = sql_string + " ) VALUES ( "
-    insert_list = ""
-    for json_object in output_list:
-        if insert_list == "":
-            insert_list = removePrefix(json_object["value"])
-        else:
-            insert_list = insert_list + ", " + removePrefix(json_object["value"])
-    sql_string = sql_string + " " + insert_list
-    sql_string = sql_string + " ) "
-    return sql_string
-
-def makeDelete(json_data):
-    json_data = flask.request.json
-    object_name = json_data["object"]
-    filter_list = json_data["filter"]
-    output_list = json_data["data"]
-    sql_string = "DELETE FROM "
-    sql_string = sql_string + object_name
-    if filter_list != None:
-        sql_string = sql_string + " WHERE "
-        for json_object in filter_list:
-            object_value = makeWhere(json_object["operator"], json_object["term1"], json_object["term2"])
-            sql_string = sql_string + " " + object_value
-    return sql_string
-
 @app.route('/', methods=['GET'])
 def home():
     return '''
     <h1>Web Service Directory</h1>
     To see more information please visite the <a href="https://github.com/GiovaniPM/GenericRestJDE">project site.</a><br><br>
     <h2>Available functions:</h2>
-
     <h3>- This directory <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></h3>
-
     <h3>- GET information <a href="http://127.0.0.1:5000/api/v1/oracle/select">http://127.0.0.1:5000/api/v1/oracle/select</a></h3>
     <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
     <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/select</mark><br>
@@ -275,35 +232,14 @@ def home():
     Method - <mark>GET</mark><br>
     Body - <mark>{ "object": "F4111", "filter": [ { "operator": ">", "term1": "TAB.ILCRDJ", "term2": 118000 }, { "operator": "AND", "term1": null, "term2": null }, { "operator": "<", "term1": "TAB.ILCRDJ", "term2": 119000 } ], "order": null, "data": [ { "column": "TAB.ILITM", "value": null }, { "column": "TAB.ILLITM", "value": null }, { "column": "TAB.ILMCU", "value": null }, { "column": "TAB.ILCRDJ", "value": null } ] }</mark><br><br>
     curl -X GET -i -H "Content-Type: application/json" -d "{\"object\": \"F4111\", \"filter\": [{\"operator\": \"=\", \"term1\": \"TAB.ILLITM\", \"term2\": \"ME00004N                 \"}], \"order\": null, \"data\": [{\"column\": \"TAB.ILITM\", \"value\": null}, {\"column\": \"TAB.ILLITM\", \"value\": null}, {\"column\": \"TAB.ILMCU\", \"value\": null}, {\"column\": \"TAB.ILCRDJ\", \"value\": null}]}" http://127.0.0.1:5000/api/v1/oracle/select</div></div>
-
-    <h3>- CHANGE information <a href="http://127.0.0.1:5000/api/v1/oracle/update">http://127.0.0.1:5000/api/v1/oracle/update</a></h3>
-    <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
-    <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/update</mark><br>
-    Heards - <mark>{"Content-Type":"application/json"}</mark><br>
-    Method - <mark>POST</mark><br>
-    Body - <mark>{ "object": "F4101", "filter": [ { "operator": "(", "term1": null, "term2": null }, { "operator": "=", "term1": "TAB.IMPRP1", "term2": "A01" }, { "operator": "OR", "term1": null, "term2": null }, { "operator": "=", "term1": "TAB.IMPRP1", "term2": "A02" }, { "operator": ")", "term1": null, "term2": null }, { "operator": "AND", "term1": null, "term2": null }, { "operator": "=", "term1": "TAB.IMPRP2", "term2": "B01" } ], "order": null, "data": [ { "column": "TAB.IMDSC1", "value": "TAB.IMDSC2" }, { "column": "TAB.IMDSC2", "value": "TAB.IMDSC1" } ] }</mark><br><br>
-    curl -X POST -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": [ { \"operator\": \"(\", \"term1\": null, \"term2\": null }, { \"operator\": \"=\", \"term1\": \"TAB.IMPRP1\", \"term2\": \"A01\" }, { \"operator\": \"OR\", \"term1\": null, \"term2\": null }, { \"operator\": \"=\", \"term1\": \"TAB.IMPRP1\", \"term2\": \"A02\" }, { \"operator\": \")\", \"term1\": null, \"term2\": null }, { \"operator\": \"AND\", \"term1\": null, \"term2\": null }, { \"operator\": \"=\", \"term1\": \"TAB.IMPRP2\", \"term2\": \"B01\" } ], \"order\": null, \"data\": [ { \"column\": \"TAB.IMDSC1\", \"value\": \"TAB.IMDSC2\" }, { \"column\": \"TAB.IMDSC2\", \"value\": \"TAB.IMDSC1\" } ] }" http://127.0.0.1:5000/api/v1/oracle/update</div></div>
-
-    <h3>- ADD information <a href="http://127.0.0.1:5000/api/v1/oracle/insert">http://127.0.0.1:5000/api/v1/oracle/insert</a></h3>
-    <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
-    <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/insert</mark><br>
-    Heards - <mark>{"Content-Type":"application/json"}</mark><br>
-    Method - <mark>POST</mark><br>
-    Body - <mark>{ "object": "F4101", "filter": null, "order": null, "data": [ { "column": "TAB.IMITM", "value": 123 }, { "column": "TAB.IMDSC1", "value": "ITEM ONE" }, { "column": "TAB.IMDSC2", "value": "First Item" } ] } </mark><br><br>
-    curl -X POST -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": null, \"order\": null, \"data\": [ { \"column\": \"TAB.IMITM\", \"value\": 123 }, { \"column\": \"TAB.IMDSC1\", \"value\": \"ITEM ONE\" }, { \"column\": \"TAB.IMDSC2\", \"value\": \"First Item\" } ] } " http://127.0.0.1:5000/api/v1/oracle/insert</div></div>
-
-    <h3>- DELETE information <a href="http://127.0.0.1:5000/api/v1/oracle/delete">http://127.0.0.1:5000/api/v1/oracle/delete</a></h3>
-    <div style="font-family:Verdana;font-size:60%;background-color:gray;color:black;padding:10px;">
-    <div style="background-color:white;color:black;padding:30px;">URL - <mark>http://127.0.0.1:5000/api/v1/oracle/delete</mark><br>
-    Heards - <mark>{"Content-Type":"application/json"}</mark><br>
-    Method - <mark>DELETE</mark><br>
-    Body - <mark>{ "object": "F4101", "filter": [ { "operator": "=", "term1": "TAB.IMITM", "term2": 123 } ], "order": null, "data": null }</mark><br><br>
-    curl -X POST -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": [ { \"operator\": \"=\", \"term1\": \"TAB.IMITM\", \"term2\": 123 } ], \"order\": null, \"data\": null }" http://127.0.0.1:5000/api/v1/oracle/delete</div></div>
     '''
 
 @app.route('/api/v1/oracle/select', methods=['GET'])
 def api_oracle_select():
-    clearDefinitions()
+    #curl -X GET -i -H "Content-Type: application/json" -d "{\"object\": \"F4111\", \"filter\": [{\"operator\": \"=\", \"term1\": \"TAB.ILLITM\", \"term2\": \"ME00004N                 \"}], \"order\": null, \"data\": [{\"column\": \"TAB.ILITM\", \"value\": null}, {\"column\": \"TAB.ILLITM\", \"value\": null}, {\"column\": \"TAB.ILMCU\", \"value\": null}, {\"column\": \"TAB.ILCRDJ\", \"value\": null}]}" http://127.0.0.1:5000/api/v2/oracle/select
+    global binders_activate, binders_list, binders_next
+    binders_list = {}
+    binders_next = 0
     conn = createConnection()
     cur = conn.cursor()
     # FIX: flask.request.json não retorna com todos os espaços de um valor no JSON. Ex.: 'ME00004N                 ' vira 'ME00004N '
@@ -312,10 +248,10 @@ def api_oracle_select():
     if app.config["DEBUG"] == True:
         outputLog(flask.request.json)
         outputLog(sql_string)
-        outputLog(Binders.parameters)
+        outputLog(binders_list)
     cur.prepare(sql_string)
-    if Binders.activate == True:
-        cur.execute(None, Binders.parameters)
+    if binders_activate == True:
+        cur.execute(None, binders_list)
     else:
         cur.execute(None, {})
     rv = cur.fetchall()    
@@ -337,60 +273,21 @@ def api_oracle_select():
 
 @app.route('/api/v1/oracle/update', methods=['POST'])
 def api_oracle_update():
-    clearDefinitions()
+    global binders_activate, binders_list, binders_next
+    binders_list = {}
+    binders_next = 0
     conn = createConnection()
     cur = conn.cursor()
     sql_string = makeUpdate(flask.request.json)
     if app.config["DEBUG"] == True:
         outputLog(flask.request.json)
         outputLog(sql_string)
-        outputLog(Binders.parameters)
+        outputLog(binders_list)
     cur.prepare(sql_string)
-    if Binders.activate == True:
-        cur.execute(None, Binders.parameters)
+    if binders_activate == True:
+        cur.execute(None, binders_list)
     else:
         cur.execute(None, {})
-    conn.commit()
-    cur.close()
-    conn.close()
-    return jsonify([])
-
-@app.route('/api/v1/oracle/insert', methods=['POST'])
-def api_oracle_insert():
-    clearDefinitions()
-    conn = createConnection()
-    cur = conn.cursor()
-    sql_string = makeInsert(flask.request.json)
-    if app.config["DEBUG"] == True:
-        outputLog(flask.request.json)
-        outputLog(sql_string)
-        outputLog(Binders.parameters)
-    cur.prepare(sql_string)
-    if Binders.activate == True:
-        cur.execute(None, Binders.parameters)
-    else:
-        cur.execute(None, {})
-    conn.commit()
-    cur.close()
-    conn.close()
-    return jsonify([])
-
-@app.route('/api/v1/oracle/delete', methods=['DELETE'])
-def api_oracle_delete():
-    clearDefinitions()
-    conn = createConnection()
-    cur = conn.cursor()
-    sql_string = makeDelete(flask.request.json)
-    if app.config["DEBUG"] == True:
-        outputLog(flask.request.json)
-        outputLog(sql_string)
-        outputLog(Binders.parameters)
-    cur.prepare(sql_string)
-    if Binders.activate == True:
-        cur.execute(None, Binders.parameters)
-    else:
-        cur.execute(None, {})
-    conn.commit()
     cur.close()
     conn.close()
     return jsonify([])
