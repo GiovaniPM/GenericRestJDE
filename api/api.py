@@ -395,7 +395,7 @@ def home():
             Method - <mark>POST</mark><br>
             Body - <mark>{ "object": "F4101", "filter": null, "order": null, "data": [ { "column": "TAB.IMITM", "value": 123 }, { "column": "TAB.IMDSC1", "value": "ITEM ONE" }, { "column": "TAB.IMDSC2", "value": "First Item" } ] } </mark><br>
             <br>
-            curl -X POST -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": null, \"order\": null, \"data\": [ { \"column\": \"TAB.IMITM\", \"value\": 123 }, { \"column\": \"TAB.IMLITM\", \"value\": "123" }, { \"column\": \"TAB.IAITM\", \"value\": 123 }, { \"column\": \"TAB.IMDSC1\", \"value\": \"ITEM ONE\" }, { \"column\": \"TAB.IMDSC2\", \"value\": \"First Item\" } ] } " http://127.0.0.1:5000/api/v1/oracle/insert
+            curl -X POST -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": null, \"order\": null, \"data\": [ { \"column\": \"TAB.IMITM\", \"value\": 123 }, { \"column\": \"TAB.IMLITM\", \"value\": "123" }, { \"column\": \"TAB.IMAITM\", \"value\": 123 }, { \"column\": \"TAB.IMDSC1\", \"value\": \"ITEM ONE\" }, { \"column\": \"TAB.IMDSC2\", \"value\": \"First Item\" } ] } " http://127.0.0.1:5000/api/v1/oracle/insert
         </div>
     </div>
 
