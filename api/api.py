@@ -6,6 +6,7 @@ import cx_Oracle
 import flask
 import json
 import os
+import sys
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = False
@@ -22,10 +23,33 @@ class DBKeys:
     db_user = 'C##GIOVANIPM'
     db_pass = 'Pm11092j'
 
+class Errors:
+    list = []
+
+def findWord(dictseq, txt):
+    for word in dictseq:
+        if word == txt:
+            return True
+    return False
+
+def findValue(dictseq,txt):
+    for word in dictseq:
+        if dictseq[word] == txt:
+            return True
+    return False
+
+def errorCatch(number, text):
+    reg = {}
+    reg['number'] = number
+    reg['text'] = text
+    Errors.list.append(reg)
+    return True
+
 def clearDefinitions():
-    global Binders
+    global Binders, Errors
     Binders.parameters = {}
-    Binders.next = 0    
+    Binders.next = 0
+    Errors.list = []
 
 def createConnection():
     conn_string = "\
@@ -261,22 +285,35 @@ def makeDelete(json_data):
 
 @app.route('/api/v1/oracle/select', methods=['GET'])
 def api_oracle_select():
+    # FIX: flask.request.json não retorna com todos os espaços de um valor no JSON. Ex.: 'ME00004N                 ' vira 'ME00004N '
+    # Solved changed ILLITM = 'ME00004N                 ' for TRIM(ILLITM) = 'ME00004N'
     clearDefinitions()
     conn = createConnection()
     cur = conn.cursor()
-    # FIX: flask.request.json não retorna com todos os espaços de um valor no JSON. Ex.: 'ME00004N                 ' vira 'ME00004N '
-    # Solved changed ILLITM = 'ME00004N                 ' for TRIM(ILLITM) = 'ME00004N'
-    sql_string = makeSelect(flask.request.json)
+    try:
+        sql_string = makeSelect(flask.request.json)
+    except Exception as e:    
+        cur.close()
+        conn.close()
+        errorCatch(-1,format(e))
+        return jsonify(Errors.list), 406
     if app.config["DEBUG"] == True:
         outputLog(flask.request.json)
         outputLog(sql_string)
         outputLog(Binders.parameters)
-    cur.prepare(sql_string)
-    if Binders.activate == True:
-        cur.execute(None, Binders.parameters)
-    else:
-        cur.execute(None, {})
-    rv = cur.fetchall()    
+    try:
+        cur.prepare(sql_string)
+        if Binders.activate == True:
+            cur.execute(None, Binders.parameters)
+        else:
+            cur.execute(None, {})
+        rv = cur.fetchall()    
+    except cx_Oracle.DatabaseError as e:
+        errorObj, = e.args
+        errorCatch(errorObj.code, errorObj.message)
+        cur.close()
+        conn.close()
+        return jsonify(Errors.list), 406
     if rv is None:
         cur.close()
         conn.close()
@@ -298,7 +335,13 @@ def api_oracle_update():
     clearDefinitions()
     conn = createConnection()
     cur = conn.cursor()
-    sql_string = makeUpdate(flask.request.json)
+    try:
+        sql_string = makeUpdate(flask.request.json)
+    except Exception as e:    
+        cur.close()
+        conn.close()
+        errorCatch(-1,format(e))
+        return jsonify(Errors.list), 406
     if app.config["DEBUG"] == True:
         outputLog(flask.request.json)
         outputLog(sql_string)
@@ -312,14 +355,10 @@ def api_oracle_update():
         conn.commit()
     except cx_Oracle.DatabaseError as e:
         errorObj, = e.args
-        objects_list = []
-        reg = {}
-        reg['number'] = errorObj.code
-        reg['text'] = errorObj.message
-        objects_list.append(reg)
+        errorCatch(errorObj.code, errorObj.message)
         cur.close()
         conn.close()
-        return jsonify(objects_list)
+        return jsonify(Errors.list), 406
     cur.close()
     conn.close()
     return jsonify([])
@@ -329,7 +368,13 @@ def api_oracle_insert():
     clearDefinitions()
     conn = createConnection()
     cur = conn.cursor()
-    sql_string = makeInsert(flask.request.json)
+    try:
+        sql_string = makeInsert(flask.request.json)
+    except Exception as e:    
+        cur.close()
+        conn.close()
+        errorCatch(-1,format(e))
+        return jsonify(Errors.list), 406
     if app.config["DEBUG"] == True:
         outputLog(flask.request.json)
         outputLog(sql_string)
@@ -344,14 +389,10 @@ def api_oracle_insert():
     #except cx_Oracle.IntegrityError as e:
     except cx_Oracle.DatabaseError as e:
         errorObj, = e.args
-        objects_list = []
-        reg = {}
-        reg['number'] = errorObj.code
-        reg['text'] = errorObj.message
-        objects_list.append(reg)
+        errorCatch(errorObj.code, errorObj.message)
         cur.close()
         conn.close()
-        return jsonify(objects_list)
+        return jsonify(Errors.list), 406
     cur.close()
     conn.close()
     return jsonify([])
@@ -361,7 +402,13 @@ def api_oracle_delete():
     clearDefinitions()
     conn = createConnection()
     cur = conn.cursor()
-    sql_string = makeDelete(flask.request.json)
+    try:
+        sql_string = makeDelete(flask.request.json)
+    except Exception as e:    
+        cur.close()
+        conn.close()
+        errorCatch(-1,format(e))
+        return jsonify(Errors.list), 406
     if app.config["DEBUG"] == True:
         outputLog(flask.request.json)
         outputLog(sql_string)
@@ -375,14 +422,10 @@ def api_oracle_delete():
         conn.commit()
     except cx_Oracle.DatabaseError as e:
         errorObj, = e.args
-        objects_list = []
-        reg = {}
-        reg['number'] = errorObj.code
-        reg['text'] = errorObj.message
-        objects_list.append(reg)
+        errorCatch(errorObj.code, errorObj.message)
         cur.close()
         conn.close()
-        return jsonify(objects_list)
+        return jsonify(Errors.list), 406
     cur.close()
     conn.close()
     return jsonify([])
