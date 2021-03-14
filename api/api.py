@@ -304,11 +304,22 @@ def api_oracle_update():
         outputLog(sql_string)
         outputLog(Binders.parameters)
     cur.prepare(sql_string)
-    if Binders.activate == True:
-        cur.execute(None, Binders.parameters)
-    else:
-        cur.execute(None, {})
-    conn.commit()
+    try:
+        if Binders.activate == True:
+            cur.execute(None, Binders.parameters)
+        else:
+            cur.execute(None, {})
+        conn.commit()
+    except cx_Oracle.DatabaseError as e:
+        errorObj, = e.args
+        objects_list = []
+        reg = {}
+        reg['number'] = errorObj.code
+        reg['text'] = errorObj.message
+        objects_list.append(reg)
+        cur.close()
+        conn.close()
+        return jsonify(objects_list)
     cur.close()
     conn.close()
     return jsonify([])
@@ -324,11 +335,23 @@ def api_oracle_insert():
         outputLog(sql_string)
         outputLog(Binders.parameters)
     cur.prepare(sql_string)
-    if Binders.activate == True:
-        cur.execute(None, Binders.parameters)
-    else:
-        cur.execute(None, {})
-    conn.commit()
+    try:
+        if Binders.activate == True:
+            cur.execute(None, Binders.parameters)
+        else:
+            cur.execute(None, {})
+        conn.commit()
+    #except cx_Oracle.IntegrityError as e:
+    except cx_Oracle.DatabaseError as e:
+        errorObj, = e.args
+        objects_list = []
+        reg = {}
+        reg['number'] = errorObj.code
+        reg['text'] = errorObj.message
+        objects_list.append(reg)
+        cur.close()
+        conn.close()
+        return jsonify(objects_list)
     cur.close()
     conn.close()
     return jsonify([])
@@ -344,11 +367,22 @@ def api_oracle_delete():
         outputLog(sql_string)
         outputLog(Binders.parameters)
     cur.prepare(sql_string)
-    if Binders.activate == True:
-        cur.execute(None, Binders.parameters)
-    else:
-        cur.execute(None, {})
-    conn.commit()
+    try:
+        if Binders.activate == True:
+            cur.execute(None, Binders.parameters)
+        else:
+            cur.execute(None, {})
+        conn.commit()
+    except cx_Oracle.DatabaseError as e:
+        errorObj, = e.args
+        objects_list = []
+        reg = {}
+        reg['number'] = errorObj.code
+        reg['text'] = errorObj.message
+        objects_list.append(reg)
+        cur.close()
+        conn.close()
+        return jsonify(objects_list)
     cur.close()
     conn.close()
     return jsonify([])
