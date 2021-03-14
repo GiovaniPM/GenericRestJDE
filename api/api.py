@@ -4,12 +4,14 @@ from unicodedata import normalize
 import datetime
 import cx_Oracle
 import flask
+import logging
 import json
 import os
 import sys
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = False
+#logging.basicConfig(level=logging.DEBUG)
 
 class Binders:
     activate = True
@@ -139,6 +141,8 @@ def makeWhere(operator, term1, term2):
         return " OR "
     elif operator == "NOT":
         return " NOT "
+    elif operator == "==":
+        return term1 + " = " + term2
     elif operator == "=":
         return term1 + " = " + term2
     elif operator == ">":
@@ -146,6 +150,8 @@ def makeWhere(operator, term1, term2):
     elif operator == "<":
         return term1 + " < " + term2
     elif operator == "<>":
+        return term1 + " <> " + term2
+    elif operator == "!=":
         return term1 + " <> " + term2
     elif operator == ">=":
         return term1 + " >= " + term2
@@ -432,10 +438,12 @@ def api_oracle_delete():
 
 @app.route('/', methods=['GET'])
 def home():
+    #app.logger.warning('A warning occurred (%d apples)', 42)
+    #app.logger.error('An error occurred')
+    #app.logger.info('Info')
     return '''
     <h1>Web Service Directory</h1>
     To see more information please visite the <a href="https://github.com/GiovaniPM/GenericRestJDE">project site.</a><br>
-    <br>
     <h2>Available functions:</h2>
 
     <h3>- This directory <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a></h3>
