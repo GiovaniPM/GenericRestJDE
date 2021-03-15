@@ -336,7 +336,7 @@ def api_oracle_select():
         conn.close()
     return jsonify(objects_list)
 
-@app.route('/api/v1/oracle/update', methods=['POST'])
+@app.route('/api/v1/oracle/update', methods=['PUT'])
 def api_oracle_update():
     clearDefinitions()
     conn = createConnection()
