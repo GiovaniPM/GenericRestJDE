@@ -400,8 +400,8 @@ ditaa(scale=1.5)
 >>curl -X DELETE -i -H "Content-Type: application/json" -d "{ \"object\": \"F4101\", \"filter\": [ { \"operator\": \"=\", \"term1\": \"TAB.IMITM\", \"term2\": 123 } ], \"order\": null, \"data\": null }" http://127.0.0.1:5000/api/v1/oracle/delete
 >>```
 >### Types of operator
->>| Option 	|       Description       	|
->>|--------	|:-----------------------:	|
+>>| Option 	|       Description         	|
+>>|--------	|:-----------------------:  	|
 >>| (      	|  _Open a operation group_ 	|
 >>| )      	| _Close a operation group_ 	|
 >>| AND    	|       _AND operator_      	|
