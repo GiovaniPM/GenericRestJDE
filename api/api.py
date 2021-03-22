@@ -28,6 +28,30 @@ class DBKeys:
 class Errors:
     list = []
 
+class Error(Exception):
+    """Base class for other exceptions"""
+    pass
+
+class NoColumnedQuery(Error):
+    """Return column(s) are expected!"""
+    pass
+
+class NoFilteredQuery(Error):
+    """Filter column(s) are expected!"""
+    pass
+
+class NoInsertedValuesQuery(Error):
+    """Insert value(s) and/or column(s) are expected!"""
+    pass
+
+class NoUpdatedValuesQuery(Error):
+    """Update value(s) and/or column(s) are expected!"""
+    pass
+
+class GenericError(Error):
+    """This is a generic error!"""
+    pass
+
 def findWord(dictseq, txt):
     for word in dictseq:
         if word == txt:
@@ -206,27 +230,31 @@ def makeSelect(json_data):
     filter_list = json_data["filter"]
     order_list = json_data["order"]
     output_list = json_data["data"]
-    sql_string = "SELECT"
-    for json_object in output_list:
-        object_value = json_object["column"]
-        if object_value.find("TAB.") == 0:
-            object_value = object_value.replace("TAB.","")
-        sql_string = sql_string + " " + object_value + ","
-    sql_string = sql_string + " rownum "
-    sql_string = sql_string + " FROM "
-    sql_string = sql_string + object_name
-    if filter_list != None:
-        sql_string = sql_string + " WHERE "
-        for json_object in filter_list:
-            object_value = makeWhere(json_object["operator"], json_object["term1"], json_object["term2"])
-            sql_string = sql_string + " " + object_value
-    if order_list != None:
-        sql_string = sql_string + " ORDER BY "
-        for json_object in order_list:
-            object_value = makeOrder(json_object["column"], json_object["sort"])
-            sql_string = sql_string + " " + object_value
-        sql_string = sql_string + " 1 "
-    return sql_string
+    if output_list != None:
+        sql_string = "SELECT"
+        for json_object in output_list:
+            object_value = json_object["column"]
+            if object_value.find("TAB.") == 0:
+                object_value = object_value.replace("TAB.","")
+            sql_string = sql_string + " " + object_value + ","
+        sql_string = sql_string + " rownum "
+        sql_string = sql_string + " FROM "
+        sql_string = sql_string + object_name
+        if filter_list != None:
+            sql_string = sql_string + " WHERE "
+            for json_object in filter_list:
+                object_value = makeWhere(json_object["operator"], json_object["term1"], json_object["term2"])
+                sql_string = sql_string + " " + object_value
+        if order_list != None:
+            sql_string = sql_string + " ORDER BY "
+            for json_object in order_list:
+                object_value = makeOrder(json_object["column"], json_object["sort"])
+                sql_string = sql_string + " " + object_value
+            sql_string = sql_string + " 1 "
+        return sql_string
+    else:
+        raise NoColumnedQuery
+        return ""
 
 def makeUpdate(json_data):
     json_data = flask.request.json
@@ -237,18 +265,22 @@ def makeUpdate(json_data):
     sql_string = sql_string + object_name
     sql_string = sql_string + " SET "
     update_list = ""
-    for json_object in output_list:
-        if update_list == "":
-            update_list = makeSet(json_object["column"], json_object["value"])
-        else:
-            update_list = update_list + ", " + makeSet(json_object["column"], json_object["value"])
-    sql_string = sql_string + " " + update_list
-    if filter_list != None:
-        sql_string = sql_string + " WHERE "
-        for json_object in filter_list:
-            object_value = makeWhere(json_object["operator"], json_object["term1"], json_object["term2"])
-            sql_string = sql_string + " " + object_value
-    return sql_string
+    if output_list != None:
+        for json_object in output_list:
+            if update_list == "":
+                update_list = makeSet(json_object["column"], json_object["value"])
+            else:
+                update_list = update_list + ", " + makeSet(json_object["column"], json_object["value"])
+        sql_string = sql_string + " " + update_list
+        if filter_list != None:
+            sql_string = sql_string + " WHERE "
+            for json_object in filter_list:
+                object_value = makeWhere(json_object["operator"], json_object["term1"], json_object["term2"])
+                sql_string = sql_string + " " + object_value
+        return sql_string
+    else:
+        raise NoUpdatedValuesQuery
+        return ""
 
 def makeInsert(json_data):
     json_data = flask.request.json
@@ -258,22 +290,26 @@ def makeInsert(json_data):
     sql_string = sql_string + object_name
     sql_string = sql_string + " ( "
     insert_list = ""
-    for json_object in output_list:
-        if insert_list == "":
-            insert_list = removePrefix(json_object["column"])
-        else:
-            insert_list = insert_list + ", " + removePrefix(json_object["column"])
-    sql_string = sql_string + " " + insert_list
-    sql_string = sql_string + " ) VALUES ( "
-    insert_list = ""
-    for json_object in output_list:
-        if insert_list == "":
-            insert_list = removePrefix(json_object["value"])
-        else:
-            insert_list = insert_list + ", " + removePrefix(json_object["value"])
-    sql_string = sql_string + " " + insert_list
-    sql_string = sql_string + " ) "
-    return sql_string
+    if output_list != None:
+        for json_object in output_list:
+            if insert_list == "":
+                insert_list = removePrefix(json_object["column"])
+            else:
+                insert_list = insert_list + ", " + removePrefix(json_object["column"])
+        sql_string = sql_string + " " + insert_list
+        sql_string = sql_string + " ) VALUES ( "
+        insert_list = ""
+        for json_object in output_list:
+            if insert_list == "":
+                insert_list = removePrefix(json_object["value"])
+            else:
+                insert_list = insert_list + ", " + removePrefix(json_object["value"])
+        sql_string = sql_string + " " + insert_list
+        sql_string = sql_string + " ) "
+        return sql_string
+    else:
+        raise NoInsertedValuesQuery
+        return ""
 
 def makeDelete(json_data):
     json_data = flask.request.json
@@ -287,7 +323,10 @@ def makeDelete(json_data):
         for json_object in filter_list:
             object_value = makeWhere(json_object["operator"], json_object["term1"], json_object["term2"])
             sql_string = sql_string + " " + object_value
-    return sql_string
+        return sql_string
+    else:
+        raise NoFilteredQuery
+        return ""
 
 @app.route('/api/v1/oracle/select', methods=['GET'])
 def api_oracle_select():
@@ -298,6 +337,9 @@ def api_oracle_select():
     cur = conn.cursor()
     try:
         sql_string = makeSelect(flask.request.json)
+    except NoColumnedQuery:
+        errorCatch(500.01, "Output column(s) are required!")
+        return jsonify(Errors.list), 412
     except Exception as e:    
         cur.close()
         conn.close()
@@ -306,7 +348,8 @@ def api_oracle_select():
     if app.config["DEBUG"] == True:
         outputLog(flask.request.json)
         outputLog(sql_string)
-        outputLog(Binders.parameters)
+        if Binders.activate == True:
+            outputLog(Binders.parameters)
     try:
         cur.prepare(sql_string)
         if Binders.activate == True:
@@ -320,10 +363,10 @@ def api_oracle_select():
         cur.close()
         conn.close()
         return jsonify(Errors.list), 406
-    if rv is None:
+    if rv is None or rv == []:
         cur.close()
         conn.close()
-        abort(204)
+        return jsonify(rv), 204
     else:
         objects_list = []
         headers = makeHeader(flask.request.json)
@@ -334,7 +377,7 @@ def api_oracle_select():
             objects_list.append(reg)
         cur.close()
         conn.close()
-    return jsonify(objects_list)
+    return jsonify(objects_list), 200
 
 @app.route('/api/v1/oracle/update', methods=['PUT'])
 def api_oracle_update():
@@ -343,6 +386,9 @@ def api_oracle_update():
     cur = conn.cursor()
     try:
         sql_string = makeUpdate(flask.request.json)
+    except NoUpdatedValuesQuery:
+        errorCatch(500.04, "Update column(s) are required!")
+        return jsonify(Errors.list), 412
     except Exception as e:    
         cur.close()
         conn.close()
@@ -351,9 +397,10 @@ def api_oracle_update():
     if app.config["DEBUG"] == True:
         outputLog(flask.request.json)
         outputLog(sql_string)
-        outputLog(Binders.parameters)
-    cur.prepare(sql_string)
+        if Binders.activate == True:
+            outputLog(Binders.parameters)
     try:
+        cur.prepare(sql_string)
         if Binders.activate == True:
             cur.execute(None, Binders.parameters)
         else:
@@ -367,7 +414,7 @@ def api_oracle_update():
         return jsonify(Errors.list), 406
     cur.close()
     conn.close()
-    return jsonify([])
+    return jsonify([]), 200
 
 @app.route('/api/v1/oracle/insert', methods=['POST'])
 def api_oracle_insert():
@@ -376,6 +423,9 @@ def api_oracle_insert():
     cur = conn.cursor()
     try:
         sql_string = makeInsert(flask.request.json)
+    except NoInsertedValuesQuery:
+        errorCatch(500.03, "Insert column(s) are required!")
+        return jsonify(Errors.list), 412
     except Exception as e:    
         cur.close()
         conn.close()
@@ -384,9 +434,10 @@ def api_oracle_insert():
     if app.config["DEBUG"] == True:
         outputLog(flask.request.json)
         outputLog(sql_string)
-        outputLog(Binders.parameters)
-    cur.prepare(sql_string)
+        if Binders.activate == True:
+            outputLog(Binders.parameters)
     try:
+        cur.prepare(sql_string)
         if Binders.activate == True:
             cur.execute(None, Binders.parameters)
         else:
@@ -401,7 +452,7 @@ def api_oracle_insert():
         return jsonify(Errors.list), 406
     cur.close()
     conn.close()
-    return jsonify([])
+    return jsonify([]), 200
 
 @app.route('/api/v1/oracle/delete', methods=['DELETE'])
 def api_oracle_delete():
@@ -410,6 +461,9 @@ def api_oracle_delete():
     cur = conn.cursor()
     try:
         sql_string = makeDelete(flask.request.json)
+    except NoFilteredQuery:
+        errorCatch(500.02, "Filter column(s) are required!")
+        return jsonify(Errors.list), 412
     except Exception as e:    
         cur.close()
         conn.close()
@@ -418,9 +472,10 @@ def api_oracle_delete():
     if app.config["DEBUG"] == True:
         outputLog(flask.request.json)
         outputLog(sql_string)
-        outputLog(Binders.parameters)
-    cur.prepare(sql_string)
+        if Binders.activate == True:
+            outputLog(Binders.parameters)
     try:
+        cur.prepare(sql_string)
         if Binders.activate == True:
             cur.execute(None, Binders.parameters)
         else:
@@ -434,7 +489,7 @@ def api_oracle_delete():
         return jsonify(Errors.list), 406
     cur.close()
     conn.close()
-    return jsonify([])
+    return jsonify([]), 200
 
 @app.route('/', methods=['GET'])
 def home():
