@@ -543,7 +543,7 @@ ditaa(scale=0.7)
 >>@endjson
 >>```
 >
-## TO BE DONE
+## Next Act
 - [ ] - Improve the errors to a array<br>
 - [ ] - Implement filter option IN/NOT IN<br>
 - [ ] - Tretament of datatypes: Date, Time and Datetime over filter conditions<br>

@@ -339,7 +339,7 @@ def api_oracle_select():
         sql_string = makeSelect(flask.request.json)
     except NoColumnedQuery:
         errorCatch(500.01, "Output column(s) are required!")
-        return jsonify(Errors.list), 412
+        return jsonify(Errors.list), 406
     except Exception as e:    
         cur.close()
         conn.close()
@@ -388,7 +388,7 @@ def api_oracle_update():
         sql_string = makeUpdate(flask.request.json)
     except NoUpdatedValuesQuery:
         errorCatch(500.04, "Update column(s) are required!")
-        return jsonify(Errors.list), 412
+        return jsonify(Errors.list), 406
     except Exception as e:    
         cur.close()
         conn.close()
@@ -425,7 +425,7 @@ def api_oracle_insert():
         sql_string = makeInsert(flask.request.json)
     except NoInsertedValuesQuery:
         errorCatch(500.03, "Insert column(s) are required!")
-        return jsonify(Errors.list), 412
+        return jsonify(Errors.list), 406
     except Exception as e:    
         cur.close()
         conn.close()
@@ -463,7 +463,7 @@ def api_oracle_delete():
         sql_string = makeDelete(flask.request.json)
     except NoFilteredQuery:
         errorCatch(500.02, "Filter column(s) are required!")
-        return jsonify(Errors.list), 412
+        return jsonify(Errors.list), 406
     except Exception as e:    
         cur.close()
         conn.close()
