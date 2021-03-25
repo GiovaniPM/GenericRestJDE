@@ -1,5 +1,6 @@
 # GenericRestJDE
-Agnostic REST server for database (ie JDEdwards).
+Agnostic REST server for database (ie Oracle) to be used in internals request such others services.
+Based uppon Python 3.9 and Flask.
 
 ## Architecture
 ```PlantUML
