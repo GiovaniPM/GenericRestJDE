@@ -1,0 +1,1 @@
+docker run -d --name="gapi" -p 8080:8080 gapimg
