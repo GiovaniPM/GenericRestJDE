@@ -5,7 +5,7 @@ Based uppon Python 3.9 and Flask.
 ## Architecture
 ```PlantUML
 @startuml
-ditaa(scale=0.7)
+ditaa(scale=0.6)
                            +-----+
                            |     |
                            |     |
