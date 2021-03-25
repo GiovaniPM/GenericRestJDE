@@ -548,7 +548,7 @@ ditaa(scale=0.7)
 ## Status Code
 | Status    	|       Description         	|
 |-----------	|:-----------------------:  	|
-| 200       	|         _Success_          	|
+| 200       	| _Success_	|
 | 204       	|      _No data found!_      	|
 | 406       	|          _Error_           	|
 
