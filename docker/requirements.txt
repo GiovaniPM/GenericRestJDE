@@ -1,4 +1,5 @@
-flask
+Flask
 json5
 flask_cors
 requests
+cx-Oracle
