@@ -6,15 +6,15 @@ Agnostic REST server for database (ie JDEdwards).
 @startuml
 ditaa(scale=1.5)
 
-+-----+
-|cBLK |
-|     |
-|  {o}|
-+--+--+
-   |
-   |
-   |
-   V
+  +-----+
+  |cBLK |
+  |     |
+  |  {o}|
+  +--+--+
+     |
+     |
+     |
+     V
 +---------+          +---------+          +---------+          +---------+
 |c008     |          |c0FF     |          |cFF0     |          |c080     |
 |         |          |         |          |         |  Y       |         |
