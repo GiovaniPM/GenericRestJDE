@@ -519,21 +519,21 @@ ditaa(scale=0.7)
 >>```
 
 ## Types of operator
-| Option 	|       Description         	|
-|--------	|:-----------------------:  	|
-| (      	|  _Open a operation group_ 	|
-| )      	| _Close a operation group_ 	|
-| AND    	|       _AND operator_      	|
-| OR     	|       _OR operator_       	|
-| NOT    	|       _NOT operator_      	|
-| =      	|           _equal_         	|
-| !=     	|         _different_       	|
-| <=     	|     _less or equal_       	|
-| >=     	|    _great or equal_       	|
-| >      	|          _great_          	|
-| <      	|          _less_           	|
-| IN     	|        _inbound_          	|
-| NOT IN 	|        _outbound_         	|
+|Option	|Description	|
+|--------	|:-----------------------:	|
+|(	|_Open a operation group_	|
+|)	|_Close a operation group_	|
+|AND	|_AND operator_	|
+|OR	|_OR operator_	|
+|NOT	|_NOT operator_	|
+|=	|_equal_	|
+|!=	|_different_	|
+|<=	|_less or equal_	|
+|>=	|_great or equal_	|
+|>	|_great_	|
+|<	|_less_	|
+|IN	|_inbound_	|
+|NOT IN	|_outbound_	|
 
 ## Terms nomenclature
 | Type                         	| Meaning           	|
