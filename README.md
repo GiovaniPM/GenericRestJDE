@@ -520,7 +520,7 @@ ditaa(scale=0.7)
 
 ## Types of operator
 |Option	|Description	|
-|--------	|:-----------------------:	|
+|:--------:	|:-----------------------:	|
 |(	|_Open a operation group_	|
 |)	|_Close a operation group_	|
 |AND	|_AND operator_	|
