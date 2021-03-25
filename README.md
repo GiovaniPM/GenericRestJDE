@@ -1,5 +1,5 @@
 # GenericRestJDE
-Agnostic REST server for database (ie Oracle) to be used in internals request such others services.
+Agnostic REST server for database (ie Oracle) to be used in internals request such others services.<br>
 Based uppon Python 3.9 and Flask.
 
 ## Architecture
@@ -543,3 +543,7 @@ ditaa(scale=0.7)
 >>@endjson
 >>```
 >
+## TO BE DONE
+[ ] - Improve the errors to a array
+[ ] - Implement filter option IN/NOT IN
+[ ] - Tretament of datatypes: Date, Time and Datetime over filter conditions
