@@ -543,6 +543,13 @@ ditaa(scale=0.7)
 >>@endjson
 >>```
 >
+## Status Code
+>>| Status    	|       Description         	|
+>>|-----------	|:-----------------------:  	|
+>>| 200       	|         _Success_          	|
+>>| 204       	|     _Not data found!_      	|
+>>| 406       	|          _Error_           	|
+>
 ## Next Act
 - [ ] - Improve the errors to a array<br>
 - [ ] - Implement filter option IN/NOT IN<br>
