@@ -545,14 +545,14 @@ ditaa(scale=0.7)
 >| "HH:mm:SS"                  	| Time              	|
 >| "YYYY-MM-DDTHH:mm:SS.CCCZ"   	| Datetime           	|
 
-# Status Code
+## Status Code
 >| Status    	|       Description         	|
 >|-----------	|:-----------------------:  	|
 >| 200       	|         _Success_          	|
 >| 204       	|      _No data found!_      	|
 >| 406       	|          _Error_           	|
 
-# Processing Errors
+## Processing Errors
 >| Status    	|          Description            	|
 >|-----------	|:-----------------------:        	|
 >| 500.01    	| _Output column(s) are required!_	|
