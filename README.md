@@ -536,14 +536,14 @@ ditaa(scale=0.7)
 |NOT IN	|_outbound_	|
 
 ## Terms nomenclature
-| Type                         	| Meaning           	|
+|Type	|Meaning	|
 |-------------------------------	|---------------------	|
-| 9,999,999.999                  	| Numeric            	|
-| "xxxxxxxxxxxxxxxxxxxxx"      	| String constant    	|
-| "TAB.xxxxxxxxxx"             	| Table column       	|
-| "YYYY-MM-DD"                	| Date              	|
-| "HH:mm:SS"                  	| Time              	|
-| "YYYY-MM-DDTHH:mm:SS.CCCZ"   	| Datetime           	|
+|9,999,999.999	|Numeric	|
+|"xxxxxxxxxxxxxxxxxxxxx"	|String constant	|
+|"TAB.xxxxxxxxxx"	|Table column	|
+|"YYYY-MM-DD"	|Date	|
+|"HH:mm:SS"	|Time	|
+|"YYYY-MM-DDTHH:mm:SS.CCCZ"	|Datetime	|
 
 ## Status Code
 |Status	|Description	|
