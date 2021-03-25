@@ -546,11 +546,11 @@ ditaa(scale=0.7)
 | "YYYY-MM-DDTHH:mm:SS.CCCZ"   	| Datetime           	|
 
 ## Status Code
-| Status    	|       Description         	|
+| Status    	|Description	|
 |-----------	|:-----------------------:  	|
-| 200       	| _Success_	|
-| 204       	|      _No data found!_      	|
-| 406       	|          _Error_           	|
+| 200       	|_Success_	|
+| 204       	|_No data found!_	|
+| 406       	|_Error_	|
 
 ## Processing Errors
 | Status    	|          Description            	|
