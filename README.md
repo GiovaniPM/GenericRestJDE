@@ -519,46 +519,46 @@ ditaa(scale=0.7)
 >>```
 
 ## Types of operator
->| Option 	|       Description         	|
->|--------	|:-----------------------:  	|
->| (      	|  _Open a operation group_ 	|
->| )      	| _Close a operation group_ 	|
->| AND    	|       _AND operator_      	|
->| OR     	|       _OR operator_       	|
->| NOT    	|       _NOT operator_      	|
->| =      	|           _equal_         	|
->| !=     	|         _different_       	|
->| <=     	|     _less or equal_       	|
->| >=     	|    _great or equal_       	|
->| >      	|          _great_          	|
->| <      	|          _less_           	|
->| IN     	|        _inbound_          	|
->| NOT IN 	|        _outbound_         	|
+| Option 	|       Description         	|
+|--------	|:-----------------------:  	|
+| (      	|  _Open a operation group_ 	|
+| )      	| _Close a operation group_ 	|
+| AND    	|       _AND operator_      	|
+| OR     	|       _OR operator_       	|
+| NOT    	|       _NOT operator_      	|
+| =      	|           _equal_         	|
+| !=     	|         _different_       	|
+| <=     	|     _less or equal_       	|
+| >=     	|    _great or equal_       	|
+| >      	|          _great_          	|
+| <      	|          _less_           	|
+| IN     	|        _inbound_          	|
+| NOT IN 	|        _outbound_         	|
 
 ## Terms nomenclature
->| Type                         	| Meaning           	|
->|-------------------------------	|---------------------	|
->| 9,999,999.999                  	| Numeric            	|
->| "xxxxxxxxxxxxxxxxxxxxx"      	| String constant    	|
->| "TAB.xxxxxxxxxx"             	| Table column       	|
->| "YYYY-MM-DD"                	| Date              	|
->| "HH:mm:SS"                  	| Time              	|
->| "YYYY-MM-DDTHH:mm:SS.CCCZ"   	| Datetime           	|
+| Type                         	| Meaning           	|
+|-------------------------------	|---------------------	|
+| 9,999,999.999                  	| Numeric            	|
+| "xxxxxxxxxxxxxxxxxxxxx"      	| String constant    	|
+| "TAB.xxxxxxxxxx"             	| Table column       	|
+| "YYYY-MM-DD"                	| Date              	|
+| "HH:mm:SS"                  	| Time              	|
+| "YYYY-MM-DDTHH:mm:SS.CCCZ"   	| Datetime           	|
 
 ## Status Code
->| Status    	|       Description         	|
->|-----------	|:-----------------------:  	|
->| 200       	|         _Success_          	|
->| 204       	|      _No data found!_      	|
->| 406       	|          _Error_           	|
+| Status    	|       Description         	|
+|-----------	|:-----------------------:  	|
+| 200       	|         _Success_          	|
+| 204       	|      _No data found!_      	|
+| 406       	|          _Error_           	|
 
 ## Processing Errors
->| Status    	|          Description            	|
->|-----------	|:-----------------------:        	|
->| 500.01    	| _Output column(s) are required!_	|
->| 500.02    	| _Filter column(s) are required!_	|
->| 500.03    	| _Insert column(s) are required!_	|
->| 500.04    	| _Update column(s) are required!_	|
+| Status    	|          Description            	|
+|-----------	|:-----------------------:        	|
+| 500.01    	| _Output column(s) are required!_	|
+| 500.02    	| _Filter column(s) are required!_	|
+| 500.03    	| _Insert column(s) are required!_	|
+| 500.04    	| _Update column(s) are required!_	|
 
 ## Next Act
 - [ ] - Improve the errors to a array<br>
