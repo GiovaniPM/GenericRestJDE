@@ -1,5 +1,5 @@
 # GenericRestJDE
-Agnostic REST server for database (ie Oracle) to be used in internals request such others services.<br>
+Agnostic REST server for database (example Oracle) to be used for internals request such others services.<br>
 Based uppon Python 3.9 and Flask.
 
 ## Architecture
