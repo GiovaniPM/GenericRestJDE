@@ -1,5 +1,4 @@
-Flask
-json5
-flask_cors
+datetime
+cx_Oracle
+flask
 requests
-cx-Oracle
