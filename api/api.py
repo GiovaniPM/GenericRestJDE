@@ -11,7 +11,7 @@ import re
 import sys
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 #logging.basicConfig(level=logging.DEBUG)
 
 class Binders:
