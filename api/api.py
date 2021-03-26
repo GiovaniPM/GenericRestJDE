@@ -49,6 +49,10 @@ class NoUpdatedValuesQuery(Error):
     """Update value(s) and/or column(s) are expected!"""
     pass
 
+class DateBadFormated(Error):
+    """Date Must be YYYY-MM-DD!"""
+    pass
+
 class GenericError(Error):
     """This is a generic error!"""
     pass
@@ -137,7 +141,7 @@ def defineType(txt):
             return "int"
         elif txt.find("TAB.") == 0:
             return "tab"
-        elif valid_date(txt):
+        elif txt.find("DTA.") == 0: 
             return "dta"
         else:
             return "str"
@@ -149,7 +153,12 @@ def removePrefix(term):
         elif defineType(term) == "tab":
             term = term.replace("TAB.","")
         elif defineType(term) == "dta":
-            term = binderCreate(str(datestdtojd(term)-1900000))
+            term = term.replace("DTA.","")
+            if valid_date(term):
+                term = binderCreate(str(datestdtojd(term)-1900000))
+            else:
+                term = binderCreate(str(999999))
+                raise DateBadFormated
         else:
             term = binderCreate(term.strip())
         return term
@@ -159,7 +168,12 @@ def removePrefix(term):
         elif defineType(term) == "tab":
             term = term.replace("TAB.","")
         elif defineType(term) == "dta":
-            term = str(datestdtojd(term)-1900000)
+            term = term.replace("DTA.","")
+            if valid_date(term):
+                term = str(datestdtojd(term)-1900000)
+            else:
+                term = str(999999)
+                raise DateBadFormated
         else:
             term = "'" + term + "'"
         return term
@@ -370,6 +384,9 @@ def api_oracle_select():
         sql_string = makeSelect(flask.request.json)
     except NoColumnedQuery:
         errorCatch(500.01, "Output column(s) are required!")
+        return jsonify(Errors.list), 406
+    except DateBadFormated:
+        errorCatch(500.05, "Date must be YYYY-MM-DD format!")
         return jsonify(Errors.list), 406
     except Exception as e:    
         cur.close()

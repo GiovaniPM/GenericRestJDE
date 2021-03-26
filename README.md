@@ -561,6 +561,7 @@ ditaa(scale=0.8)
 |500.02	|_Filter column(s) are required!_	|
 |500.03	|_Insert column(s) are required!_	|
 |500.04	|_Update column(s) are required!_	|
+|500.05	|_Date must be YYYY-MM-DD format!_	|
 
 ## Next Act
 - [ ] - Improve the errors to a array<br>
