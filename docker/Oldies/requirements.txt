@@ -1,0 +1,4 @@
+datetime
+cx_Oracle
+flask
+requests

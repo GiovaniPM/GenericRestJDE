@@ -550,6 +550,7 @@ ditaa(scale=0.8)
 |-----------	|:-----------------------:  	|
 |200	|_Success_	|
 |204	|_No data found_	|
+|400	|_Bad Request_	|
 |406	|_Error_	|
 |500	|_Internal Error_	|
 

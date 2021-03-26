@@ -1,0 +1,1 @@
+docker build --tag=giovanimpm/debpyora:1 .
