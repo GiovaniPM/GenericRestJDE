@@ -11,7 +11,7 @@ import re
 import sys
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = False
+app.config["DEBUG"] = True
 #logging.basicConfig(level=logging.DEBUG)
 
 class Binders:
@@ -51,6 +51,10 @@ class NoUpdatedValuesQuery(Error):
 
 class DateBadFormated(Error):
     """Date Must be YYYY-MM-DD!"""
+    pass
+
+class TimeBadFormated(Error):
+    """Date Must be HH:mm:SS!"""
     pass
 
 class GenericError(Error):
@@ -120,9 +124,24 @@ def jdtodatestd (jdate):
     datestd = datetime.datetime.strptime(jdate, fmt).date()
     return(datestd)
 
+def timestdtonum (stddate):
+    fmt='%H:%M:%S'
+    stddate = datetime.datetime.strptime(stddate, fmt)
+    mmHour=stddate.hour
+    mnMinute=stddate.minute
+    mnSecond=stddate.second
+    return(mnSecond+100*mnMinute+10000*mmHour)
+
 def valid_date(datestring):
     try:
         datetime.datetime.strptime(datestring, '%Y-%m-%d')
+        return True
+    except ValueError:
+        return False
+
+def valid_time(datestring):
+    try:
+        datetime.datetime.strptime(datestring, '%H:%M:%S')
         return True
     except ValueError:
         return False
@@ -143,6 +162,8 @@ def defineType(txt):
             return "tab"
         elif txt.find("DTA.") == 0: 
             return "dta"
+        elif txt.find("TME.") == 0: 
+            return "tme"
         else:
             return "str"
 
@@ -159,6 +180,13 @@ def removePrefix(term):
             else:
                 term = binderCreate(str(999999))
                 raise DateBadFormated
+        elif defineType(term) == "tme":
+            term = term.replace("TME.","")
+            if valid_time(term):
+                term = binderCreate(str(timestdtonum(term)))
+            else:
+                term = binderCreate(str(999999))
+                raise TimeBadFormated
         else:
             term = binderCreate(term.strip())
         return term
@@ -174,6 +202,13 @@ def removePrefix(term):
             else:
                 term = str(999999)
                 raise DateBadFormated
+        elif defineType(term) == "tme":
+            term = term.replace("TME.","")
+            if valid_time(term):
+                term = str(timestdtonum(term))
+            else:
+                term = str(999999)
+                raise TimeBadFormated
         else:
             term = "'" + term + "'"
         return term
@@ -388,6 +423,9 @@ def api_oracle_select():
     except DateBadFormated:
         errorCatch(500.05, "Date must be YYYY-MM-DD format!")
         return jsonify(Errors.list), 406
+    except TimeBadFormated:
+        errorCatch(500.06, "Time must be HH:mm:SS format!")
+        return jsonify(Errors.list), 406
     except Exception as e:    
         cur.close()
         conn.close()
@@ -436,6 +474,9 @@ def api_oracle_update():
         sql_string = makeUpdate(flask.request.json)
     except DateBadFormated:
         errorCatch(500.05, "Date must be YYYY-MM-DD format!")
+        return jsonify(Errors.list), 406
+    except TimeBadFormated:
+        errorCatch(500.06, "Time must be HH:mm:SS format!")
         return jsonify(Errors.list), 406
     except NoUpdatedValuesQuery:
         errorCatch(500.04, "Update column(s) are required!")
@@ -514,6 +555,9 @@ def api_oracle_delete():
         sql_string = makeDelete(flask.request.json)
     except DateBadFormated:
         errorCatch(500.05, "Date must be YYYY-MM-DD format!")
+        return jsonify(Errors.list), 406
+    except TimeBadFormated:
+        errorCatch(500.06, "Time must be HH:mm:SS format!")
         return jsonify(Errors.list), 406
     except NoFilteredQuery:
         errorCatch(500.02, "Filter column(s) are required!")
