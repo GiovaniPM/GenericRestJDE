@@ -540,10 +540,10 @@ ditaa(scale=0.8)
 |-------------------------------	|---------------------	|
 |9,999,999.999	|_Numeric_	|
 |xxxxxxxxxxxxxxxxxxxxx	|_String constant_	|
-|**TAB.**xxxxxxxxxx	|_Table column_	|
-|**DTA.**YYYY-MM-DD	|_Date_	|
-|**TME.**HH:mm:SS	|_Time_	|
-|**CNJ.**('XXXX','XXXX')	|_Set of values_	|
+|TAB.xxxxxxxxxx	|_Table column_	|
+|DTA.YYYY-MM-DD	|_Date_	|
+|TME.HH:mm:SS	|_Time_	|
+|CNJ.('XXXX','XXXX')	|_Set of values_	|
 <!--|"YYYY-MM-DDTHH:mm:SS.CCCZ"	|_Datetime_	|-->
 
 ## Status Code
