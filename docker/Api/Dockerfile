@@ -5,8 +5,8 @@ LABEL   version="1.0.0" \
         maintainer="Giovani Mesquita<giovanipm@gmail.com>" \
         Author="Giovani Perotto Mesquita"        
 
-COPY requirements.txt /api/requirements.txt
 COPY files.zip /api/files.zip
+COPY requirements.txt /api/requirements.txt
 
 RUN cd /api && \
     /usr/bin/pip3 install -r requirements.txt

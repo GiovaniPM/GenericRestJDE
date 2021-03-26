@@ -11,7 +11,7 @@ import re
 import sys
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 #logging.basicConfig(level=logging.DEBUG)
 
 class Binders:
@@ -434,6 +434,9 @@ def api_oracle_update():
     cur = conn.cursor()
     try:
         sql_string = makeUpdate(flask.request.json)
+    except DateBadFormated:
+        errorCatch(500.05, "Date must be YYYY-MM-DD format!")
+        return jsonify(Errors.list), 406
     except NoUpdatedValuesQuery:
         errorCatch(500.04, "Update column(s) are required!")
         return jsonify(Errors.list), 406
@@ -509,6 +512,9 @@ def api_oracle_delete():
     cur = conn.cursor()
     try:
         sql_string = makeDelete(flask.request.json)
+    except DateBadFormated:
+        errorCatch(500.05, "Date must be YYYY-MM-DD format!")
+        return jsonify(Errors.list), 406
     except NoFilteredQuery:
         errorCatch(500.02, "Filter column(s) are required!")
         return jsonify(Errors.list), 406
