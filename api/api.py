@@ -19,7 +19,7 @@ class Binders:
     next = 0
 
 class DBKeys:
-    db_host = '127.0.0.1'
+    db_host = '0.0.0.0'
     db_port = 1521
     db_servicename = 'XE'
     db_user = 'C##GIOVANIPM'
