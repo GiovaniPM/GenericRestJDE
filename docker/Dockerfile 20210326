@@ -14,13 +14,22 @@ ENV DOWNLOAD_TEMP=/downloads \
     ORACLE_SERVER="172.17.0.3"
 
 RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y  unzip \
+    apt-get -y upgrade && \
+    apt-get install -y  zip \
+                        unzip \
+                        gcc \
                         libaio-dev \
+                        libpq-dev \
                         python3 \
                         python3-pip \
                         curl && \
     mkdir /api
+
+COPY requirements.txt /api/requirements.txt
+
+RUN cd /api && \
+    curl -sSL https://raw.githubusercontent.com/GiovaniPM/GenericRestJDE/main/api/api.py > /api/api.py && \
+    /usr/bin/pip3 install -r requirements.txt
 
 RUN mkdir $DOWNLOAD_TEMP && \
     curl --progress-bar $ORACLE_SITE_CLIENT -o $DOWNLOAD_TEMP/instantclient-basic-linux.zip && \
@@ -28,20 +37,7 @@ RUN mkdir $DOWNLOAD_TEMP && \
     mkdir $ORACLE_BASE && \
     cd $DOWNLOAD_TEMP && \
     unzip $DOWNLOAD_TEMP/instantclient-basic-linux.zip -d $ORACLE_BASE && \
-    unzip $DOWNLOAD_TEMP/instantclient-sqlplus-linux.zip -d $ORACLE_BASE && \
-    rm $DOWNLOAD_TEMP/instantclient-basic-linux.zip && \
-    rm $DOWNLOAD_TEMP/instantclient-sqlplus-linux.zip
-
-COPY requirements.txt /api/requirements.txt
-COPY files.zip /api/files.zip
-COPY api.py /api/api.py
-
-RUN cd /api && \
-    /usr/bin/pip3 install -r requirements.txt
-
-RUN cd / && \
-    unzip -qo /api/files.zip && \
-    rm /api/files.zip
+    unzip $DOWNLOAD_TEMP/instantclient-sqlplus-linux.zip -d $ORACLE_BASE
 
 RUN echo 'export PATH="$PATH:/opt/oracle/instantclient_19_8"' >> ~/.bashrc && \
     echo 'export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/oracle/instantclient_19_8"' >> ~/.bashrc
