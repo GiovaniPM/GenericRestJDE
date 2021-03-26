@@ -1,8 +1,46 @@
 FROM debian
-RUN mkdir /api
-RUN apt-get update && apt-get install -y python3 python3-pip curl
-RUN curl -sSL https://raw.githubusercontent.com/GiovaniPM/GenericRestJDE/main/api/api.py > /api/api.py
+
+LABEL   version="1.0.0" \
+        description="Agnostic Rest" \
+        maintainer="Giovani Mesquita<giovanipm@gmail.com>"        
+
+ENV DOWNLOAD_TEMP=/downloads \
+    ORACLE_BASE=/opt/oracle \
+    ORACLE_HOME=/opt/oracle/instantclient_19_8 \ 
+    ORACLE_SITE_BASIC="https://download.oracle.com/otn_software/linux/instantclient/19800/instantclient-sqlplus-linux.x64-19.8.0.0.0dbru.zip" \
+    ORACLE_SITE_CLIENT="https://download.oracle.com/otn_software/linux/instantclient/19800/instantclient-basic-linux.x64-19.8.0.0.0dbru.zip?xd_co_f=fae07a5a-ae5f-4c1a-8ce0-f41ed4a394c5'" \
+    PATH="$PATH:/opt/oracle/instantclient_19_8" \
+    LD_LIBRARY_PATH=/opt/oracle/instantclient_19_8
+
+RUN apt-get update && \
+    apt-get -y upgrade && \
+    apt-get install -y  zip \
+                        unzip \
+                        gcc \
+                        libaio-dev \
+                        libpq-dev \
+                        python3 \
+                        python3-pip \
+                        curl && \
+    mkdir /api
+
 COPY requirements.txt /api/requirements.txt
-RUN cd api && /usr/bin/pip3 install -r requirements.txt
+
+RUN cd /api && \
+    curl -sSL https://raw.githubusercontent.com/GiovaniPM/GenericRestJDE/main/api/api.py > /api/api.py && \
+    /usr/bin/pip3 install -r requirements.txt
+
+RUN mkdir $DOWNLOAD_TEMP && \
+    curl --progress-bar $ORACLE_SITE_CLIENT -o $DOWNLOAD_TEMP/instantclient-basic-linux.zip && \
+    curl --progress-bar $ORACLE_SITE_BASIC -o $DOWNLOAD_TEMP/instantclient-sqlplus-linux.zip && \
+    mkdir $ORACLE_BASE && \
+    cd $DOWNLOAD_TEMP && \
+    unzip $DOWNLOAD_TEMP/instantclient-basic-linux.zip -d $ORACLE_BASE && \
+    unzip $DOWNLOAD_TEMP/instantclient-sqlplus-linux.zip -d $ORACLE_BASE
+
+RUN echo 'export PATH="$PATH:/opt/oracle/instantclient_19_8"' >> ~/.bashrc && \
+    echo 'export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/oracle/instantclient_19_8"' >> ~/.bashrc
+
 EXPOSE 8080
+
 CMD ["/usr/bin/python3", "api/api.py"]
