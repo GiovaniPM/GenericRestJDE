@@ -164,6 +164,8 @@ def defineType(txt):
             return "dta"
         elif txt.find("TME.") == 0: 
             return "tme"
+        elif txt.find("CNJ.") == 0: 
+            return "cnj"
         else:
             return "str"
 
@@ -187,6 +189,9 @@ def removePrefix(term):
             else:
                 term = binderCreate(str(999999))
                 raise TimeBadFormated
+        elif defineType(term) == "cnj":
+            term = term.replace("CNJ.","")
+            term = term
         else:
             term = binderCreate(term.strip())
         return term
@@ -209,6 +214,9 @@ def removePrefix(term):
             else:
                 term = str(999999)
                 raise TimeBadFormated
+        elif defineType(term) == "cnj":
+            term = term.replace("CNJ.","")
+            term = term
         else:
             term = "'" + term + "'"
         return term
@@ -261,6 +269,10 @@ def makeWhere(operator, term1, term2):
         return term1 + " >= " + term2
     elif operator == "<=":
         return term1 + " <= " + term2
+    elif operator == "IN":
+        return term1 + " IN " + term2
+    elif operator == "NOT IN":
+        return term1 + " NOT IN " + term2
 
 def makeSet(term1, term2):
     if term1 != None:
