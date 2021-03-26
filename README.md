@@ -541,7 +541,7 @@ ditaa(scale=0.8)
 |9,999,999.999	|_Numeric_	|
 |"xxxxxxxxxxxxxxxxxxxxx"	|_String constant_	|
 |"TAB.xxxxxxxxxx"	|_Table column_	|
-|"YYYY-MM-DD"	|_Date_	|
+|"DTA.YYYY-MM-DD"	|_Date_	|
 |"HHmmSS"	|_Time_	|
 <!--|"YYYY-MM-DDTHH:mm:SS.CCCZ"	|_Datetime_	|-->
 
