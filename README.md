@@ -536,14 +536,14 @@ ditaa(scale=0.8)
 |NOT IN	|_outbound_	|
 
 ## Terms nomenclature
-|Type	|Meaning	|
-|-------------------------------	|---------------------	|
-|9,999,999.999	|_Numeric_	|
-|xxxxxxxxxxxxxxxxxxxxx	|_String constant_	|
-|TAB.xxxxxxxxxx	|_Table column_	|
-|DTA.YYYY-MM-DD	|_Date_	|
-|TME.HH:mm:SS	|_Time_	|
-|CNJ.('XXXX','XXXX')	|_Set of values_	|
+|Type	|Meaning	|Prefix    |Value    |
+|-------------------------------	|---------------------	|---------------------	|---------------------	|
+|9,999,999.999	|_Numeric_	|    |9,999,999.999    |
+|xxxxxxxxxxxxxxxxxxxxx	|_String constant_	|    |xxxxxxxxxxxxxxxxxxxxx    |
+|TAB.xxxxxxxxxx	|_Table column_	|TAB.    |xxxxxxxxxx    |
+|DTA.YYYY-MM-DD	|_Date_	|DTA.    |YYYY-MM-DD    |
+|TME.HH:mm:SS	|_Time_	|TME.    |HH:mm:SS    |
+|CNJ.('XXXX','XXXX')	|_Set of values_	|CNJ.    |('XXXX','XXXX')|
 <!--|"YYYY-MM-DDTHH:mm:SS.CCCZ"	|_Datetime_	|-->
 
 ## Status Code
