@@ -2,7 +2,8 @@ FROM debian
 
 LABEL   version="1.0.0" \
         description="Agnostic Rest" \
-        maintainer="Giovani Mesquita<giovanipm@gmail.com>"        
+        maintainer="Giovani Mesquita<giovanipm@gmail.com>" \
+        Author="Giovani Perotto Mesquita"        
 
 ENV DOWNLOAD_TEMP=/downloads \
     ORACLE_BASE=/opt/oracle \

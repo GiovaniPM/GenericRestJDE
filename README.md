@@ -549,8 +549,9 @@ ditaa(scale=0.8)
 |Status	|Description	|
 |-----------	|:-----------------------:  	|
 |200	|_Success_	|
-|204	|_No data found!_	|
+|204	|_No data found_	|
 |406	|_Error_	|
+|500	|_Internal Error_	|
 
 ## Processing Errors
 |Status	|Description	|
