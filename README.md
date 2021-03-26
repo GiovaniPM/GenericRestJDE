@@ -543,7 +543,7 @@ ditaa(scale=0.8)
 |"TAB.xxxxxxxxxx"	|_Table column_	|
 |"DTA.YYYY-MM-DD"	|_Date_	|
 |"TME.HH:mm:SS"	|_Time_	|
-|"CNJ.('XXXX','XXXX'"	|_Set_	|
+|"CNJ.('XXXX','XXXX')"	|_Set_	|
 <!--|"YYYY-MM-DDTHH:mm:SS.CCCZ"	|_Datetime_	|-->
 
 ## Status Code
