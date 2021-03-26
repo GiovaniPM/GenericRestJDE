@@ -7,10 +7,11 @@ import flask
 import logging
 import json
 import os
+import re
 import sys
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = False
+app.config["DEBUG"] = True
 #logging.basicConfig(level=logging.DEBUG)
 
 class Binders:
@@ -19,7 +20,7 @@ class Binders:
     next = 0
 
 class DBKeys:
-    db_host = '172.0.0.1'
+    db_host = 'localhost'
     db_port = 1521
     db_servicename = 'XE'
     db_user = 'C##GIOVANIPM'
@@ -81,7 +82,7 @@ def createConnection():
     try:
         DBKeys.db_host = os.environ['ORACLE_SERVER']
     except Exception:
-        DBKeys.db_host = '127.0.0.1'
+        DBKeys.db_host = 'localhost'
     conn_string = "\
                     (DESCRIPTION =\
                         (ADDRESS_LIST =\
@@ -102,6 +103,26 @@ def outputLog(text):
 def removeExtendCharacters(txt):
     return normalize('NFKD', txt).encode('ASCII', 'ignore').decode('ASCII')
 
+def datestdtojd (stddate):
+    fmt='%Y-%m-%d'
+    sdtdate = datetime.datetime.strptime(stddate, fmt)
+    nmyear=sdtdate.year
+    sdtdate = sdtdate.timetuple()
+    jdate = sdtdate.tm_yday
+    return(nmyear*1000+jdate)
+
+def jdtodatestd (jdate):
+    fmt = '%Y%j'
+    datestd = datetime.datetime.strptime(jdate, fmt).date()
+    return(datestd)
+
+def valid_date(datestring):
+    try:
+        datetime.datetime.strptime(datestring, '%Y-%m-%d')
+        return True
+    except ValueError:
+        return False
+
 def binderCreate(txt):
     global Binders
     Binders.next = Binders.next + 1
@@ -116,6 +137,8 @@ def defineType(txt):
             return "int"
         elif txt.find("TAB.") == 0:
             return "tab"
+        elif valid_date(txt):
+            return "dta"
         else:
             return "str"
 
@@ -125,6 +148,8 @@ def removePrefix(term):
             term = binderCreate(str(term))
         elif defineType(term) == "tab":
             term = term.replace("TAB.","")
+        elif defineType(term) == "dta":
+            term = binderCreate(str(datestdtojd(term)-1900000))
         else:
             term = binderCreate(term.strip())
         return term
@@ -133,6 +158,8 @@ def removePrefix(term):
             term = str(term)
         elif defineType(term) == "tab":
             term = term.replace("TAB.","")
+        elif defineType(term) == "dta":
+            term = str(datestdtojd(term)-1900000)
         else:
             term = "'" + term + "'"
         return term
