@@ -78,6 +78,10 @@ def clearDefinitions():
     Errors.list = []
 
 def createConnection():
+    try:
+        db_host = os.environ['ORACLE_SERVER']
+    except Exception:
+        db_host = '127.0.0.1'
     conn_string = "\
                     (DESCRIPTION =\
                         (ADDRESS_LIST =\

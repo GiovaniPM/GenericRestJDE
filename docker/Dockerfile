@@ -10,7 +10,8 @@ ENV DOWNLOAD_TEMP=/downloads \
     ORACLE_SITE_BASIC="https://download.oracle.com/otn_software/linux/instantclient/19800/instantclient-sqlplus-linux.x64-19.8.0.0.0dbru.zip" \
     ORACLE_SITE_CLIENT="https://download.oracle.com/otn_software/linux/instantclient/19800/instantclient-basic-linux.x64-19.8.0.0.0dbru.zip?xd_co_f=fae07a5a-ae5f-4c1a-8ce0-f41ed4a394c5'" \
     PATH="$PATH:/opt/oracle/instantclient_19_8" \
-    LD_LIBRARY_PATH=/opt/oracle/instantclient_19_8
+    LD_LIBRARY_PATH=/opt/oracle/instantclient_19_8 \
+    ORACLE_SERVER="172.17.0.3"
 
 RUN apt-get update && \
     apt-get -y upgrade && \
