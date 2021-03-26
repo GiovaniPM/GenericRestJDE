@@ -542,8 +542,8 @@ ditaa(scale=0.8)
 |"xxxxxxxxxxxxxxxxxxxxx"	|_String constant_	|
 |"TAB.xxxxxxxxxx"	|_Table column_	|
 |"YYYY-MM-DD"	|_Date_	|
-|"HH:mm:SS"	|_Time_	|
-|"YYYY-MM-DDTHH:mm:SS.CCCZ"	|_Datetime_	|
+|"HHmmSS"	|_Time_	|
+<!--|"YYYY-MM-DDTHH:mm:SS.CCCZ"	|_Datetime_	|-->
 
 ## Status Code
 |Status	|Description	|
