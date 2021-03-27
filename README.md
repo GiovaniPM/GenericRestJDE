@@ -100,6 +100,18 @@ ditaa(scale=0.8)
 @enduml
 ```
 
+## Project Structure
+>📦GenericRestJDE<br>
+> ┣ 📂api<br>
+> ┃ ┣ 📂Archive<br>
+> ┃ ┗ 📜api.py<br>
+> ┣ 📂docker<br>
+> ┃ ┣ 📂Api<br>
+> ┃ ┣ 📂Base<br>
+> ┃ ┗ 📂Oldies<br>
+> ┣ 📂Test<br>
+> ┗ 📜README.md<br>
+
 ## JSON Data Structure
 
 >### Request GET
