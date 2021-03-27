@@ -2,7 +2,19 @@
 Agnostic REST server for database (example Oracle) to be used for internals request such others services.<br>
 Based uppon Python 3.9 and Flask.
 
-## Architecture
+## Project Structure
+📦GenericRestJDE<br>
+ ┣ 📂api<br>
+ ┃ ┣ 📂Archive<br>
+ ┃ ┗ 📜api.py<br>
+ ┣ 📂docker<br>
+ ┃ ┣ 📂Api<br>
+ ┃ ┣ 📂Base<br>
+ ┃ ┗ 📂Oldies<br>
+ ┣ 📂Test<br>
+ ┗ 📜README.md<br>
+
+## Solution Design
 ```PlantUML
 @startuml
 ditaa(scale=0.8)
