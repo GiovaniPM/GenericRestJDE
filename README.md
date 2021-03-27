@@ -6,7 +6,7 @@ Based uppon Python 3.9 and Flask.
 📦 **GenericRestJDE**<br>
  ┣ 📂 **api**<br>
  ┃ ┣ 📂 **Archive**<br>
- ┃ ┃ ┗ 📜 _archived files_<br>
+ ┃ ┃ ┗ 📜 _archived files ..._<br>
  ┃ ┗ 📜 api.py<br>
  ┣ 📂 **docker**<br>
  ┃ ┣ 📂 **Api**<br>
@@ -21,9 +21,9 @@ Based uppon Python 3.9 and Flask.
  ┃ ┃ ┣ 📜 Dockerfile<br>
  ┃ ┃ ┗ 📜 push.bat<br>
  ┃ ┗ 📂 **Oldies**<br>
- ┃ ┃ ┗ 📜 _old files_<br>
+ ┃ ┃ ┗ 📜 _old files ..._<br>
  ┣ 📂 **Test**<br>
- ┃ ┗ 📜 _test files_<br>
+ ┃ ┗ 📜 _test files ..._<br>
  ┣ 📜 README.md<br>
  ┗ 📜 upload.per<br>
 
