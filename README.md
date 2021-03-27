@@ -3,29 +3,29 @@ Agnostic REST server for database (example Oracle) to be used for internals requ
 Based uppon Python 3.9 and Flask.
 
 ## Project Structure
-📦GenericRestJDE<br>
- ┣ 📂api<br>
- ┃ ┣ 📂Archive<br>
- ┃ ┃ ┗ 📜_archived files_<br>
- ┃ ┗ 📜api.py<br>
- ┣ 📂docker<br>
- ┃ ┣ 📂Api<br>
- ┃ ┃ ┣ 📜build.bat<br>
- ┃ ┃ ┣ 📜Dockerfile<br>
- ┃ ┃ ┣ 📜requirements.txt<br>
- ┃ ┃ ┣ 📜run.bat<br>
- ┃ ┃ ┣ 📜start.bat<br>
- ┃ ┃ ┗ 📜stop.bat<br>
- ┃ ┣ 📂Base<br>
- ┃ ┃ ┣ 📜build.bat<br>
- ┃ ┃ ┣ 📜Dockerfile<br>
- ┃ ┃ ┗ 📜push.bat<br>
- ┃ ┗ 📂Oldies<br>
- ┃ ┃ ┗ 📜_old files_<br>
- ┣ 📂Test<br>
- ┃ ┗ 📜_test files_<br>
- ┣ 📜README.md<br>
- ┗ 📜upload.per<br>
+📦 GenericRestJDE<br>
+ ┣ 📂 api<br>
+ ┃ ┣ 📂 Archive<br>
+ ┃ ┃ ┗ 📜 _archived files_<br>
+ ┃ ┗ 📜 api.py<br>
+ ┣ 📂 docker<br>
+ ┃ ┣ 📂 Api<br>
+ ┃ ┃ ┣ 📜 build.bat<br>
+ ┃ ┃ ┣ 📜 Dockerfile<br>
+ ┃ ┃ ┣ 📜 requirements.txt<br>
+ ┃ ┃ ┣ 📜 run.bat<br>
+ ┃ ┃ ┣ 📜 start.bat<br>
+ ┃ ┃ ┗ 📜 stop.bat<br>
+ ┃ ┣ 📂 Base<br>
+ ┃ ┃ ┣ 📜 build.bat<br>
+ ┃ ┃ ┣ 📜 Dockerfile<br>
+ ┃ ┃ ┗ 📜 push.bat<br>
+ ┃ ┗ 📂 Oldies<br>
+ ┃ ┃ ┗ 📜 _old files_<br>
+ ┣ 📂 Test<br>
+ ┃ ┗ 📜 _test files_<br>
+ ┣ 📜 README.md<br>
+ ┗ 📜 upload.per<br>
 
 ## Solution Design
 ```PlantUML
