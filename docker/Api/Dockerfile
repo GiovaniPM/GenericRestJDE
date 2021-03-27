@@ -5,6 +5,9 @@ LABEL   version="1.0.0" \
         maintainer="Giovani Mesquita<giovanipm@gmail.com>" \
         Author="Giovani Perotto Mesquita"        
 
+RUN apt-get update && \
+    apt-get upgrade -y
+    
 COPY files.zip /api/files.zip
 COPY requirements.txt /api/requirements.txt
 
