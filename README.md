@@ -6,13 +6,26 @@ Based uppon Python 3.9 and Flask.
 📦GenericRestJDE<br>
  ┣ 📂api<br>
  ┃ ┣ 📂Archive<br>
+ ┃ ┃ ┗ 📜_archived files_<br>
  ┃ ┗ 📜api.py<br>
  ┣ 📂docker<br>
  ┃ ┣ 📂Api<br>
+ ┃ ┃ ┣ 📜build.bat<br>
+ ┃ ┃ ┣ 📜Dockerfile<br>
+ ┃ ┃ ┣ 📜requirements.txt<br>
+ ┃ ┃ ┣ 📜run.bat<br>
+ ┃ ┃ ┣ 📜start.bat<br>
+ ┃ ┃ ┗ 📜stop.bat<br>
  ┃ ┣ 📂Base<br>
+ ┃ ┃ ┣ 📜build.bat<br>
+ ┃ ┃ ┣ 📜Dockerfile<br>
+ ┃ ┃ ┗ 📜push.bat<br>
  ┃ ┗ 📂Oldies<br>
+ ┃ ┃ ┗ 📜_old files_<br>
  ┣ 📂Test<br>
- ┗ 📜README.md<br>
+ ┃ ┗ 📜_test files_<br>
+ ┣ 📜README.md<br>
+ ┗ 📜upload.per<br>
 
 ## Solution Design
 ```PlantUML
@@ -111,43 +124,6 @@ ditaa(scale=0.8)
                            +-----+
 @enduml
 ```
-
-## Project Structure
-📦GenericRestJDE<br>
- ┣ 📂api<br>
- ┃ ┣ 📂Archive<br>
- ┃ ┃ ┣ 📜api.20200326.py<br>
- ┃ ┃ ┣ 📜api.err.py<br>
- ┃ ┃ ┣ 📜api.old.py<br>
- ┃ ┃ ┣ 📜clip<br>
- ┃ ┃ ┗ 📜teste key.py<br>
- ┃ ┗ 📜api.py<br>
- ┣ 📂docker<br>
- ┃ ┣ 📂Api<br>
- ┃ ┃ ┣ 📜build.bat<br>
- ┃ ┃ ┣ 📜Dockerfile<br>
- ┃ ┃ ┣ 📜requirements.txt<br>
- ┃ ┃ ┣ 📜run.bat<br>
- ┃ ┃ ┣ 📜start.bat<br>
- ┃ ┃ ┗ 📜stop.bat<br>
- ┃ ┣ 📂Base<br>
- ┃ ┃ ┣ 📜build.bat<br>
- ┃ ┃ ┣ 📜Dockerfile<br>
- ┃ ┃ ┗ 📜push.bat<br>
- ┃ ┗ 📂Oldies<br>
- ┃ ┃ ┣ 📜build.bat<br>
- ┃ ┃ ┣ 📜Dockerfile<br>
- ┃ ┃ ┣ 📜Dockerfile 20210326<br>
- ┃ ┃ ┣ 📜requirements.txt<br>
- ┃ ┃ ┣ 📜run.bat<br>
- ┃ ┃ ┣ 📜start.bat<br>
- ┃ ┃ ┗ 📜stop.bat<br>
- ┣ 📂Test<br>
- ┃ ┣ 📜teste.html<br>
- ┃ ┣ 📜teste.py<br>
- ┃ ┗ 📜teste2.py<br>
- ┣ 📜README.md<br>
- ┗ 📜upload.per<br>
 
 ## JSON Data Structure
 
