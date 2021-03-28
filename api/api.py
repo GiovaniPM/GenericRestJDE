@@ -27,6 +27,7 @@ class DBKeys:
     db_pass = 'Pm11092j'
 
 class Errors:
+    qty = 0
     list = []
 
 class Error(Exception):
@@ -78,6 +79,7 @@ def errorCatch(number, text):
     reg['number'] = number
     reg['text'] = text
     Errors.list.append(reg)
+    Errors.qty = Errors.qty + 1
     return True
 
 def clearDefinitions():
@@ -85,6 +87,7 @@ def clearDefinitions():
     Binders.parameters = {}
     Binders.next = 0
     Errors.list = []
+    Errors.qty = 0
 
 def createConnection():
     try:
@@ -181,17 +184,16 @@ def removePrefix(term):
                 term = binderCreate(str(datestdtojd(term)-1900000))
             else:
                 term = binderCreate(str(999999))
-                raise DateBadFormated
+                errorCatch(500.05, "Date must be YYYY-MM-DD format!")
         elif defineType(term) == "tme":
             term = term.replace("TME.","")
             if valid_time(term):
                 term = binderCreate(str(timestdtonum(term)))
             else:
                 term = binderCreate(str(999999))
-                raise TimeBadFormated
+                errorCatch(500.06, "Time must be HH:mm:SS format!")
         elif defineType(term) == "cnj":
             term = term.replace("CNJ.","")
-            term = term
         else:
             term = binderCreate(term.strip())
         return term
@@ -206,17 +208,16 @@ def removePrefix(term):
                 term = str(datestdtojd(term)-1900000)
             else:
                 term = str(999999)
-                raise DateBadFormated
+                errorCatch(500.05, "Date must be YYYY-MM-DD format!")
         elif defineType(term) == "tme":
             term = term.replace("TME.","")
             if valid_time(term):
                 term = str(timestdtonum(term))
             else:
                 term = str(999999)
-                raise TimeBadFormated
+                errorCatch(500.06, "Time must be HH:mm:SS format!")
         elif defineType(term) == "cnj":
             term = term.replace("CNJ.","")
-            term = term
         else:
             term = "'" + term + "'"
         return term
@@ -322,7 +323,9 @@ def makeSelect(json_data):
     filter_list = json_data["filter"]
     order_list = json_data["order"]
     output_list = json_data["data"]
-    if output_list != None:
+    if output_list == None:
+        errorCatch(500.01, "Output column(s) are required!")
+    else:
         sql_string = "SELECT"
         for json_object in output_list:
             object_value = json_object["column"]
@@ -343,10 +346,10 @@ def makeSelect(json_data):
                 object_value = makeOrder(json_object["column"], json_object["sort"])
                 sql_string = sql_string + " " + object_value
             sql_string = sql_string + " 1 "
-        return sql_string
+    if Errors.qty > 0:
+        raise GenericError
     else:
-        raise NoColumnedQuery
-        return ""
+        return sql_string
 
 def makeUpdate(json_data):
     json_data = flask.request.json
@@ -357,22 +360,26 @@ def makeUpdate(json_data):
     sql_string = sql_string + object_name
     sql_string = sql_string + " SET "
     update_list = ""
-    if output_list != None:
+    if output_list == None:
+        errorCatch(500.04, "Update column(s) are required!")
+    else:
         for json_object in output_list:
             if update_list == "":
                 update_list = makeSet(json_object["column"], json_object["value"])
             else:
                 update_list = update_list + ", " + makeSet(json_object["column"], json_object["value"])
-        sql_string = sql_string + " " + update_list
-        if filter_list != None:
-            sql_string = sql_string + " WHERE "
-            for json_object in filter_list:
-                object_value = makeWhere(json_object["operator"], json_object["term1"], json_object["term2"])
-                sql_string = sql_string + " " + object_value
-        return sql_string
+    sql_string = sql_string + " " + update_list
+    if filter_list == None:
+        errorCatch(500.02, "Filter column(s) are required!")
     else:
-        raise NoUpdatedValuesQuery
-        return ""
+        sql_string = sql_string + " WHERE "
+        for json_object in filter_list:
+            object_value = makeWhere(json_object["operator"], json_object["term1"], json_object["term2"])
+            sql_string = sql_string + " " + object_value
+    if Errors.qty > 0:
+        raise GenericError
+    else:
+        return sql_string
 
 def makeInsert(json_data):
     json_data = flask.request.json
@@ -382,7 +389,9 @@ def makeInsert(json_data):
     sql_string = sql_string + object_name
     sql_string = sql_string + " ( "
     insert_list = ""
-    if output_list != None:
+    if output_list == None:
+        errorCatch(500.03, "Insert column(s) are required!")
+    else:
         for json_object in output_list:
             if insert_list == "":
                 insert_list = removePrefix(json_object["column"])
@@ -398,10 +407,10 @@ def makeInsert(json_data):
                 insert_list = insert_list + ", " + removePrefix(json_object["value"])
         sql_string = sql_string + " " + insert_list
         sql_string = sql_string + " ) "
-        return sql_string
+    if Errors.qty > 0:
+        raise GenericError
     else:
-        raise NoInsertedValuesQuery
-        return ""
+        return sql_string
 
 def makeDelete(json_data):
     json_data = flask.request.json
@@ -410,33 +419,28 @@ def makeDelete(json_data):
     output_list = json_data["data"]
     sql_string = "DELETE FROM "
     sql_string = sql_string + object_name
-    if filter_list != None:
+    if filter_list == None:
+        errorCatch(500.02, "Filter column(s) are required!")
+    else:
         sql_string = sql_string + " WHERE "
         for json_object in filter_list:
             object_value = makeWhere(json_object["operator"], json_object["term1"], json_object["term2"])
             sql_string = sql_string + " " + object_value
-        return sql_string
+    if Errors.qty > 0:
+        raise GenericError
     else:
-        raise NoFilteredQuery
-        return ""
+        return sql_string
 
 @app.route('/api/v1/oracle/select', methods=['GET'])
 def api_oracle_select():
-    # FIX: flask.request.json não retorna com todos os espaços de um valor no JSON. Ex.: 'ME00004N                 ' vira 'ME00004N '
-    # Solved changed ILLITM = 'ME00004N                 ' for TRIM(ILLITM) = 'ME00004N'
     clearDefinitions()
     conn = createConnection()
     cur = conn.cursor()
+    if request.environ['CONTENT_LENGTH'] == '0':
+        errorCatch(500.07,"JSON in BODY is required!")
     try:
         sql_string = makeSelect(flask.request.json)
-    except NoColumnedQuery:
-        errorCatch(500.01, "Output column(s) are required!")
-        return jsonify(Errors.list), 406
-    except DateBadFormated:
-        errorCatch(500.05, "Date must be YYYY-MM-DD format!")
-        return jsonify(Errors.list), 406
-    except TimeBadFormated:
-        errorCatch(500.06, "Time must be HH:mm:SS format!")
+    except GenericError:
         return jsonify(Errors.list), 406
     except Exception as e:    
         cur.close()
@@ -482,16 +486,11 @@ def api_oracle_update():
     clearDefinitions()
     conn = createConnection()
     cur = conn.cursor()
+    if request.environ['CONTENT_LENGTH'] == '0':
+        errorCatch(500.07,"JSON in BODY is required!")
     try:
         sql_string = makeUpdate(flask.request.json)
-    except DateBadFormated:
-        errorCatch(500.05, "Date must be YYYY-MM-DD format!")
-        return jsonify(Errors.list), 406
-    except TimeBadFormated:
-        errorCatch(500.06, "Time must be HH:mm:SS format!")
-        return jsonify(Errors.list), 406
-    except NoUpdatedValuesQuery:
-        errorCatch(500.04, "Update column(s) are required!")
+    except GenericError:
         return jsonify(Errors.list), 406
     except Exception as e:    
         cur.close()
@@ -525,10 +524,11 @@ def api_oracle_insert():
     clearDefinitions()
     conn = createConnection()
     cur = conn.cursor()
+    if request.environ['CONTENT_LENGTH'] == '0':
+        errorCatch(500.07,"JSON in BODY is required!")
     try:
         sql_string = makeInsert(flask.request.json)
-    except NoInsertedValuesQuery:
-        errorCatch(500.03, "Insert column(s) are required!")
+    except GenericError:
         return jsonify(Errors.list), 406
     except Exception as e:    
         cur.close()
@@ -547,7 +547,6 @@ def api_oracle_insert():
         else:
             cur.execute(None, {})
         conn.commit()
-    #except cx_Oracle.IntegrityError as e:
     except cx_Oracle.DatabaseError as e:
         errorObj, = e.args
         errorCatch(errorObj.code, errorObj.message)
@@ -563,16 +562,11 @@ def api_oracle_delete():
     clearDefinitions()
     conn = createConnection()
     cur = conn.cursor()
+    if request.environ['CONTENT_LENGTH'] == '0':
+        errorCatch(500.07,"JSON in BODY is required!")
     try:
         sql_string = makeDelete(flask.request.json)
-    except DateBadFormated:
-        errorCatch(500.05, "Date must be YYYY-MM-DD format!")
-        return jsonify(Errors.list), 406
-    except TimeBadFormated:
-        errorCatch(500.06, "Time must be HH:mm:SS format!")
-        return jsonify(Errors.list), 406
-    except NoFilteredQuery:
-        errorCatch(500.02, "Filter column(s) are required!")
+    except GenericError:
         return jsonify(Errors.list), 406
     except Exception as e:    
         cur.close()

@@ -8,8 +8,8 @@ LABEL   version="1.0.0" \
 RUN apt-get update && \
     apt-get upgrade -y
     
-COPY files.zip /api/files.zip
 COPY requirements.txt /api/requirements.txt
+COPY files.zip /api/files.zip
 
 RUN cd /api && \
     /usr/bin/pip3 install -r requirements.txt && \

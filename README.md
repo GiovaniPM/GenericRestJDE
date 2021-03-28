@@ -589,6 +589,7 @@ ditaa(scale=0.8)
 |500.04	|_Update column(s) are required!_	|
 |500.05	|_Date must be YYYY-MM-DD format!_	|
 |500.06	|_Time must be HH:mm:SS format!_	|
+|500.07	|_JSON in BODY is required!_	|
 
 ## Next Act
 - [ ] - Improve the errors to a array<br>
