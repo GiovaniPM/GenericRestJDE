@@ -301,7 +301,6 @@ def makeOrder(column, order):
     return object_value
 
 def makeHeader(json_data):
-    json_data = flask.request.json
     output_list = json_data["data"]
     objects_list = []
     for json_object in output_list:
@@ -316,7 +315,6 @@ def makeHeader(json_data):
     return objects_list
 
 def qtyHeader(json_data):
-    json_data = flask.request.json
     output_list = json_data["data"]
     qty = 0
     for json_object in output_list:
@@ -324,7 +322,6 @@ def qtyHeader(json_data):
     return qty
 
 def makeSelect(json_data):
-    json_data = flask.request.json
     object_name = json_data["object"]
     filter_list = json_data["filter"]
     order_list = json_data["order"]
@@ -358,7 +355,6 @@ def makeSelect(json_data):
         return sql_string
 
 def makeUpdate(json_data):
-    json_data = flask.request.json
     object_name = json_data["object"]
     filter_list = json_data["filter"]
     output_list = json_data["data"]
@@ -388,7 +384,6 @@ def makeUpdate(json_data):
         return sql_string
 
 def makeInsert(json_data):
-    json_data = flask.request.json
     object_name = json_data["object"]
     output_list = json_data["data"]
     sql_string = "INSERT INTO "
@@ -419,7 +414,6 @@ def makeInsert(json_data):
         return sql_string
 
 def makeDelete(json_data):
-    json_data = flask.request.json
     object_name = json_data["object"]
     filter_list = json_data["filter"]
     output_list = json_data["data"]
@@ -447,7 +441,7 @@ def api_oracle_select():
         sql_string = makeSelect(flask.request.json)
     except GenericError:
         return jsonify(Errors.list), 406
-    except Exception as e:    
+    except Exception as e:
         cur.close()
         conn.close()
         errorCatch(-1,format(e))
