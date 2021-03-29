@@ -62,6 +62,12 @@ class GenericError(Error):
     """This is a generic error!"""
     pass
 
+def thereisJson():
+    if request.environ['CONTENT_LENGTH'] == '0':
+        errorCatch(500.07,"JSON in BODY is required!")
+        raise GenericError
+    return ""
+
 def findWord(dictseq, txt):
     for word in dictseq:
         if word == txt:
@@ -436,9 +442,8 @@ def api_oracle_select():
     clearDefinitions()
     conn = createConnection()
     cur = conn.cursor()
-    if request.environ['CONTENT_LENGTH'] == '0':
-        errorCatch(500.07,"JSON in BODY is required!")
     try:
+        thereisJson()
         sql_string = makeSelect(flask.request.json)
     except GenericError:
         return jsonify(Errors.list), 406
@@ -486,9 +491,8 @@ def api_oracle_update():
     clearDefinitions()
     conn = createConnection()
     cur = conn.cursor()
-    if request.environ['CONTENT_LENGTH'] == '0':
-        errorCatch(500.07,"JSON in BODY is required!")
     try:
+        thereisJson()
         sql_string = makeUpdate(flask.request.json)
     except GenericError:
         return jsonify(Errors.list), 406
@@ -524,9 +528,8 @@ def api_oracle_insert():
     clearDefinitions()
     conn = createConnection()
     cur = conn.cursor()
-    if request.environ['CONTENT_LENGTH'] == '0':
-        errorCatch(500.07,"JSON in BODY is required!")
     try:
+        thereisJson()
         sql_string = makeInsert(flask.request.json)
     except GenericError:
         return jsonify(Errors.list), 406
@@ -562,9 +565,8 @@ def api_oracle_delete():
     clearDefinitions()
     conn = createConnection()
     cur = conn.cursor()
-    if request.environ['CONTENT_LENGTH'] == '0':
-        errorCatch(500.07,"JSON in BODY is required!")
     try:
+        thereisJson()
         sql_string = makeDelete(flask.request.json)
     except GenericError:
         return jsonify(Errors.list), 406
