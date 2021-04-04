@@ -433,7 +433,6 @@ def makeInsert(json_data):
     if output_list == None:
         errorCatch(500.03, "Insert column(s) are required!")
     else:
-
         for json_object in output_list:
             if insert_list == "":
                 insert_list = removePrefix(json_object["column"])
